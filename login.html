@@ -182,93 +182,101 @@
 
         <a href="ASMI_website_full.html" class="back-link">← Return to Public Site</a>
     </div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    // We add 'getDatabase' and specify the URL
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    <script type="module">
-        // Firebase Setup
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyDYnbcULU8Kkp2JkDRk4onTbN8rvuw9YEc",
+        authDomain: "asmi-76d0b.firebaseapp.com",
+        projectId: "asmi-76d0b",
+        storageBucket: "asmi-76d0b.firebasestorage.app",
+        messagingSenderId: "557411474138",
+        appId: "1:557411474138:web:715d2818998d5d39f263e3",
+        measurementId: "G-TPHYEJWEJZ"
+    };
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDYnbcULU8Kkp2JkDRk4onTbN8rvuw9YEc",
-            authDomain: "asmi-76d0b.firebaseapp.com",
-            projectId: "asmi-76d0b",
-            storageBucket: "asmi-76d0b.firebasestorage.app",
-            messagingSenderId: "557411474138",
-            appId: "1:557411474138:web:715d2818998d5d39f263e3",
-            measurementId: "G-TPHYEJWEJZ"
-        };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    
+    // CRITICAL FIX: Explicitly link your Asia-Southeast Database URL
+    const db = getDatabase(app, "https://asmi-76d0b-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
+    window.handleLogin = async () => {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const btn = document.getElementById('loginBtn');
+        const errDisplay = document.getElementById('errorMessage');
 
-        window.handleLogin = async () => {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const btn = document.getElementById('loginBtn');
-            const errDisplay = document.getElementById('errorMessage');
+        if(!email || !password) {
+            errDisplay.textContent = "Please enter both email and password.";
+            return;
+        }
 
-            if(!email || !password) {
-                errDisplay.textContent = "Please enter both email and password.";
-                return;
-            }
+        btn.disabled = true;
+        btn.textContent = "Verifying...";
+        errDisplay.textContent = "";
 
-            btn.disabled = true;
-            btn.textContent = "Verifying...";
-            errDisplay.textContent = "";
+        try {
+            // 1. Authenticate with Firebase Auth
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
 
-            try {
-                // 1. Authenticate with Firebase
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
+            // 2. Check Permissions in Realtime Database
+            // We look in both folders: admins and members
+            const adminRef = ref(db, `admins/${user.uid}`);
+            const memberRef = ref(db, `members/${user.uid}`);
 
-                // 2. Check Permissions in Realtime Database
-                const adminRef = ref(db, `admins/${user.uid}`);
-                const memberRef = ref(db, `members/${user.uid}`);
+            console.log("Checking DB for UID:", user.uid); // Debug log
 
-                const [adminSnap, memberSnap] = await Promise.all([
-                    get(adminRef),
-                    get(memberRef)
-                ]);
+            const [adminSnap, memberSnap] = await Promise.all([
+                get(adminRef),
+                get(memberRef)
+            ]);
 
-                if (adminSnap.exists() || memberSnap.exists()) {
-                    // Success: User is authorized
-                    window.location.href = "index.html";
-                } else {
-                    // Unauthorized: Not in our database
-                    await signOut(auth);
-                    errDisplay.textContent = "Access Denied: You are not a registered ASMI member.";
-                    btn.disabled = false;
-                    btn.textContent = "Sign In to Hub";
-                }
-
-            } catch (error) {
+            if (adminSnap.exists() || memberSnap.exists()) {
+                // SUCCESS: Redirect to your home page
+                // Change "index.html" if your file has a different name
+                window.location.href = "index.html"; 
+            } else {
+                // UNAUTHORIZED: Sign them out so they don't stay logged in
+                await signOut(auth);
+                errDisplay.textContent = "Access Denied: UID not found in ASMI Database.";
                 btn.disabled = false;
                 btn.textContent = "Sign In to Hub";
-                if(error.code === 'auth/invalid-credential') {
-                    errDisplay.textContent = "Invalid email or password.";
-                } else {
-                    errDisplay.textContent = "An error occurred. Please try again.";
-                }
-                console.error(error);
             }
-        };
 
-        // Aesthetic Leaf Particles Logic
-        const container = document.getElementById('particles');
-        const emojis = ['🍃', '🌿', '🌱'];
-        function createLeaf() {
-            const leaf = document.createElement('div');
-            leaf.className = 'leaf';
-            leaf.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-            leaf.style.left = Math.random() * 100 + 'vw';
-            leaf.style.fontSize = (Math.random() * 10 + 15) + 'px';
-            leaf.style.animationDuration = (Math.random() * 3 + 3) + 's';
-            container.appendChild(leaf);
-            setTimeout(() => leaf.remove(), 6000);
+        } catch (error) {
+            btn.disabled = false;
+            btn.textContent = "Sign In to Hub";
+            console.error("Login Error:", error);
+            
+            if(error.code === 'auth/invalid-credential') {
+                errDisplay.textContent = "Invalid email or password.";
+            } else if (error.code === 'auth/network-request-failed') {
+                errDisplay.textContent = "Network error. Check your connection.";
+            } else {
+                errDisplay.textContent = "Login failed. Check Console (F12).";
+            }
         }
-        setInterval(createLeaf, 400);
-    </script>
-</body>
+    };
+
+    // Aesthetic Leaf Particles Logic
+    const container = document.getElementById('particles');
+    const emojis = ['🍃', '🌿', '🌱'];
+    function createLeaf() {
+        const leaf = document.createElement('div');
+        leaf.className = 'leaf';
+        leaf.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        leaf.style.left = Math.random() * 100 + 'vw';
+        leaf.style.fontSize = (Math.random() * 10 + 15) + 'px';
+        leaf.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        if(container) container.appendChild(leaf);
+        setTimeout(() => leaf.remove(), 6000);
+    }
+    setInterval(createLeaf, 400);
+</script>
+    </body>
 </html>
