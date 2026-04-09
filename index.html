@@ -564,12 +564,13 @@
   </div>
 </div>
 
-<!-- FIREBASE SDKs -->
+<!-- COMBINED & FIXED SCRIPTS -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getDatabase, ref, push, onChildAdded, onChildChanged, onChildRemoved, remove, update, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+// 1. CONFIGURATION
 const firebaseConfig = {
   apiKey: "AIzaSyDYnbcULU8Kkp2JkDRk4onTbN8rvuw9YEc",
   authDomain: "asmi-76d0b.firebaseapp.com",
@@ -584,15 +585,20 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDxc2-yw_tUCHmiKZmNz7wEucixclFqPvN7yiQh1rST54swYHPzXpco5ihlUcaY8rprQ/exec";
+// Update these with your actual deployed URLs
+const MEMBER_DIRECTORY_URL = "https://script.google.com/macros/s/AKfycbwg1bwThXje8rPAqyZczi02Tqu4WnkS7tn3edu3ypOWNu3pXxAD-DZT8WWPnIs6x9TKAQ/exec"; 
+const JOIN_REQUEST_URL = "https://script.google.com/macros/s/AKfycbyimTm_PI6rU4TovK8qfZPvSwhj2uGUYT2nNUqh5zzPCU4buOalLrO7IYiO9oaSyBPgtA/exec"; 
 
-const MEMBER_DIRECTORY_URL = "https://script.google.com/macros/s/AKfycbzDxc2-yw_tUCHmiKZmNz7wEucixclFqPvN7yiQh1rST54swYHPzXpco5ihlUcaY8rprQ/exec"; // The one for the cards
-const JOIN_REQUEST_URL = "https://script.google.com/macros/s/AKfycbyimTm_PI6rU4TovK8qfZPvSwhj2uGUYT2nNUqh5zzPCU4buOalLrO7IYiO9oaSyBPgtA/exec"; // The one you just created
-  
 let currentUser = null;
 let isAdmin = false;
 
-// 1. AUTH OBSERVER
+// Initialize the Observer FIRST so it's ready for fetchMembers
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+
+// 2. AUTH LOGIC
 onAuthStateChanged(auth, async (user) => {
     const chatLock = document.getElementById('chatLock');
     const authNavBtn = document.getElementById('authNavBtn');
@@ -601,7 +607,7 @@ onAuthStateChanged(auth, async (user) => {
 
     if (user) {
         currentUser = user;
-        chatLock.style.display = 'none';
+        if(chatLock) chatLock.style.display = 'none';
         authNavBtn.textContent = 'Logout';
         authNavBtn.style.borderColor = '#ff6b6b';
         authNavBtn.style.color = '#ff6b6b';
@@ -610,28 +616,28 @@ onAuthStateChanged(auth, async (user) => {
         const adminSnap = await get(ref(db, `admins/${user.uid}`));
         if (adminSnap.exists()) {
             isAdmin = true;
-            adminNavLink.style.display = 'block';
-            adminSection.style.display = 'block';
+            if(adminNavLink) adminNavLink.style.display = 'block';
+            if(adminSection) adminSection.style.display = 'block';
         }
     } else {
         currentUser = null;
         isAdmin = false;
-        chatLock.style.display = 'flex';
+        if(chatLock) chatLock.style.display = 'flex';
         authNavBtn.textContent = 'Member Login';
         authNavBtn.style.borderColor = 'var(--g5)';
         authNavBtn.style.color = 'var(--g5)';
         authNavBtn.onclick = null;
         authNavBtn.href = 'login.html';
-        adminNavLink.style.display = 'none';
-        adminSection.style.display = 'none';
+        if(adminNavLink) adminNavLink.style.display = 'none';
+        if(adminSection) adminSection.style.display = 'none';
     }
 });
 
-// 2. DYNAMIC MEMBERS (FETCH & RENDER)
+// 3. DYNAMIC MEMBERS (FETCH)
 async function fetchMembers() {
     const grid = document.getElementById('membersGrid');
     try {
-        const response = await fetch(GOOGLE_SCRIPT_URL);
+        const response = await fetch(MEMBER_DIRECTORY_URL);
         const data = await response.json();
         grid.innerHTML = "";
 
@@ -640,7 +646,6 @@ async function fetchMembers() {
             const role = member['Enter Your Designation/Role in Club'] || "Member";
             const phone = member['Mobile no.'] || "";
             
-            // Generate Initials (e.g., Golsam Shiva -> GS)
             const nameParts = name.trim().split(/\s+/);
             let initials = nameParts[0].charAt(0);
             if(nameParts.length > 1) initials += nameParts[nameParts.length-1].charAt(0);
@@ -651,22 +656,19 @@ async function fetchMembers() {
             card.innerHTML = `
                 <div class="member-avatar">${initials}</div>
                 <div class="member-name">${name}</div>
-                <span class="member-role ${role.toLowerCase().includes('president') || role.toLowerCase().includes('lead') ? 'lead' : ''}">${role}</span>
+                <span class="member-role ${role.toLowerCase().includes('president') ? 'lead' : ''}">${role}</span>
                 <div class="member-phone"><a href="tel:${phone}">📞 ${phone}</a></div>
             `;
             grid.appendChild(card);
-            
-            // IMPORTANT: Make the card visible by adding it to the observer manually
-            if (window.obs) window.obs.observe(card);
+            obs.observe(card); // Observer is now defined locally, so no error
         });
-
     } catch (e) {
         console.error("Error fetching members:", e);
-        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #ff6b6b; padding: 40px;">Failed to load members directory. Check console for CORS errors.</div>`;
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #ff6b6b; padding: 40px;">Failed to load members directory. Check console.</div>`;
     }
 }
 
-// 3. SEND JOIN DATA TO GOOGLE SHEET
+// 4. JOIN REQUEST
 window.submitJoin = async () => {
     const name = document.getElementById('join_name').value;
     const roll = document.getElementById('join_roll').value;
@@ -679,39 +681,25 @@ window.submitJoin = async () => {
     btn.textContent = "Sending Application...";
 
     try {
-        // Sending data to the NEW form/sheet URL
         await fetch(JOIN_REQUEST_URL, {
             method: 'POST',
             mode: 'no-cors', 
-            cache: 'no-cache',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: name,
-                roll: roll,
-                phone: phone
-            })
+            body: JSON.stringify({ name, roll, phone })
         });
-
-        alert('🌿 Application sent! Check your WhatsApp/Email for updates.');
+        alert('🌿 Application sent! Check your WhatsApp later.');
         closeModal('joinModal');
-        // Clear fields
-        document.getElementById('join_name').value = '';
-        document.getElementById('join_roll').value = '';
-        document.getElementById('join_phone').value = '';
-        
     } catch (e) {
-        alert('Error submitting application.');
-        console.error(e);
+        alert('Error submitting.');
     } finally {
         btn.disabled = false;
         btn.textContent = "Submit Application 🌱";
     }
 };
-// 4. CHAT LOGIC
+
+// 5. CHAT LOGIC
 window.sendMsg = () => {
     const inp = document.getElementById('chatInput');
     if (!inp.value.trim() || !currentUser) return;
-
     push(ref(db, 'messages'), {
         uid: currentUser.uid,
         name: currentUser.email.split('@')[0],
@@ -730,7 +718,6 @@ onChildAdded(ref(db, 'messages'), (snapshot) => {
     const msgDiv = document.createElement('div');
     msgDiv.className = `msg ${isOwn ? 'own' : ''}`;
     msgDiv.id = `msg-${key}`;
-    
     msgDiv.innerHTML = `
         <div class="msg-av">${msg.name.charAt(0).toUpperCase()}</div>
         <div>
@@ -755,17 +742,13 @@ onChildChanged(ref(db, 'messages'), (snapshot) => {
     if(el) el.textContent = snapshot.val().text + " (edited)";
 });
 
-window.deleteMsg = (key) => { if(confirm("Delete this message?")) remove(ref(db, `messages/${key}`)); };
+window.deleteMsg = (key) => { if(confirm("Delete?")) remove(ref(db, `messages/${key}`)); };
 window.editMsg = (key, oldText) => {
-    const newText = prompt("Edit your message:", oldText);
+    const newText = prompt("Edit:", oldText);
     if(newText && newText !== oldText) update(ref(db, `messages/${key}`), { text: newText });
 };
 
-window.addEventListener('load', fetchMembers);
-</script>
-
-<script>
-/* UI SCRIPTS (KEEP THESE AS THEY ARE) */
+// UI FUNCTIONS (Cursor, Particles, Counter)
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
 
@@ -779,16 +762,27 @@ for (let i = 0; i < 18; i++) {
   particles.appendChild(leaf);
 }
 
-function animateCounter(el, target, suffix='') {
+window.animateCounter = (el, target, suffix='') => {
   let cur = 0; const step = target / 60;
   const t = setInterval(() => {
     cur = Math.min(cur + step, target);
     el.textContent = Math.floor(cur) + suffix;
     if (cur >= target) clearInterval(t);
   }, 25);
-}
+};
 
+window.openModal = (id) => { document.getElementById(id).classList.add('open'); };
+window.closeModal = (id) => { document.getElementById(id).classList.remove('open'); };
+window.switchTab = (name) => {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+};
+
+// INITIALIZE
 window.addEventListener('load', () => {
+    fetchMembers();
     setTimeout(() => {
         animateCounter(document.getElementById('c1'), 120, '+');
         animateCounter(document.getElementById('c2'), 34);
@@ -796,32 +790,6 @@ window.addEventListener('load', () => {
         animateCounter(document.getElementById('c4'), 8);
     }, 600);
 });
-
-// GLOBAL OBSERVER (Shared with fetch function)
-window.obs = new IntersectionObserver(entries => {
-  entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(r => window.obs.observe(r));
-
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', e => { if(e.target === m) m.classList.remove('open'); }); });
-
-function switchTab(name) {
-  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
-  event.target.classList.add('active');
-  document.getElementById('tab-' + name).classList.add('active');
-}
-
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) t.scrollIntoView({behavior:'smooth'});
-  });
-});
-
 </script>
 </body>
 </html>
