@@ -584,6 +584,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDxc2-yw_tUCHmiKZmNz7wEucixclFqPvN7yiQh1rST54swYHPzXpco5ihlUcaY8rprQ/exec";
+
+const MEMBER_DIRECTORY_URL = "https://script.google.com/macros/s/AKfycbzDxc2-yw_tUCHmiKZmNz7wEucixclFqPvN7yiQh1rST54swYHPzXpco5ihlUcaY8rprQ/exec"; // The one for the cards
+const JOIN_REQUEST_URL = "https://script.google.com/macros/s/AKfycbyimTm_PI6rU4TovK8qfZPvSwhj2uGUYT2nNUqh5zzPCU4buOalLrO7IYiO9oaSyBPgtA/exec"; // The one you just created
+  
 let currentUser = null;
 let isAdmin = false;
 
@@ -598,10 +603,10 @@ onAuthStateChanged(auth, async (user) => {
         currentUser = user;
         chatLock.style.display = 'none';
         authNavBtn.textContent = 'Logout';
-        authNavBtn.href = '#';
+        authNavBtn.style.borderColor = '#ff6b6b';
+        authNavBtn.style.color = '#ff6b6b';
         authNavBtn.onclick = () => signOut(auth);
 
-        // Check Admin Status
         const adminSnap = await get(ref(db, `admins/${user.uid}`));
         if (adminSnap.exists()) {
             isAdmin = true;
@@ -613,20 +618,20 @@ onAuthStateChanged(auth, async (user) => {
         isAdmin = false;
         chatLock.style.display = 'flex';
         authNavBtn.textContent = 'Member Login';
-        authNavBtn.href = 'login.html';
+        authNavBtn.style.borderColor = 'var(--g5)';
+        authNavBtn.style.color = 'var(--g5)';
         authNavBtn.onclick = null;
+        authNavBtn.href = 'login.html';
         adminNavLink.style.display = 'none';
         adminSection.style.display = 'none';
     }
 });
 
-// 2. DYNAMIC MEMBERS (GOOGLE SHEETS)
+// 2. DYNAMIC MEMBERS (FETCH & RENDER)
 async function fetchMembers() {
     const grid = document.getElementById('membersGrid');
-    const url = "https://script.google.com/macros/s/AKfycbwKT9OqP9G4NFu_cOs0E-SykgNV1fZC3oV0OVUiBbtQfJ67NsjCvgtKuD1K9FwsgNlY9A/exec";
-    
     try {
-        const response = await fetch(url);
+        const response = await fetch(GOOGLE_SCRIPT_URL);
         const data = await response.json();
         grid.innerHTML = "";
 
@@ -635,8 +640,8 @@ async function fetchMembers() {
             const role = member['Enter Your Designation/Role in Club'] || "Member";
             const phone = member['Mobile no.'] || "";
             
-            // Generate Initials
-            const nameParts = name.trim().split(" ");
+            // Generate Initials (e.g., Golsam Shiva -> GS)
+            const nameParts = name.trim().split(/\s+/);
             let initials = nameParts[0].charAt(0);
             if(nameParts.length > 1) initials += nameParts[nameParts.length-1].charAt(0);
             initials = initials.toUpperCase();
@@ -646,29 +651,70 @@ async function fetchMembers() {
             card.innerHTML = `
                 <div class="member-avatar">${initials}</div>
                 <div class="member-name">${name}</div>
-                <span class="member-role ${role.toLowerCase().includes('president') ? 'lead' : ''}">${role}</span>
+                <span class="member-role ${role.toLowerCase().includes('president') || role.toLowerCase().includes('lead') ? 'lead' : ''}">${role}</span>
                 <div class="member-phone"><a href="tel:${phone}">📞 ${phone}</a></div>
             `;
             grid.appendChild(card);
+            
+            // IMPORTANT: Make the card visible by adding it to the observer manually
+            if (window.obs) window.obs.observe(card);
         });
-        
-        // Re-trigger scroll reveal for new elements
-        reveals.forEach(r => obs.observe(r));
 
     } catch (e) {
         console.error("Error fetching members:", e);
-        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #ff6b6b;">Failed to load members directory.</div>`;
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #ff6b6b; padding: 40px;">Failed to load members directory. Check console for CORS errors.</div>`;
     }
 }
 
-// 3. REAL-TIME CHAT (FIREBASE)
+// 3. SEND JOIN DATA TO GOOGLE SHEET
+window.submitJoin = async () => {
+    const name = document.getElementById('join_name').value;
+    const roll = document.getElementById('join_roll').value;
+    const phone = document.getElementById('join_phone').value;
+    const btn = document.querySelector('#joinModal .btn-primary');
+
+    if(!name || !roll || !phone) return alert("Please fill all fields");
+
+    btn.disabled = true;
+    btn.textContent = "Sending Application...";
+
+    try {
+        // Sending data to the NEW form/sheet URL
+        await fetch(JOIN_REQUEST_URL, {
+            method: 'POST',
+            mode: 'no-cors', 
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: name,
+                roll: roll,
+                phone: phone
+            })
+        });
+
+        alert('🌿 Application sent! Check your WhatsApp/Email for updates.');
+        closeModal('joinModal');
+        // Clear fields
+        document.getElementById('join_name').value = '';
+        document.getElementById('join_roll').value = '';
+        document.getElementById('join_phone').value = '';
+        
+    } catch (e) {
+        alert('Error submitting application.');
+        console.error(e);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "Submit Application 🌱";
+    }
+};
+// 4. CHAT LOGIC
 window.sendMsg = () => {
     const inp = document.getElementById('chatInput');
     if (!inp.value.trim() || !currentUser) return;
 
     push(ref(db, 'messages'), {
         uid: currentUser.uid,
-        name: currentUser.email.split('@')[0], // Fallback name
+        name: currentUser.email.split('@')[0],
         text: inp.value,
         timestamp: Date.now()
     });
@@ -685,22 +731,15 @@ onChildAdded(ref(db, 'messages'), (snapshot) => {
     msgDiv.className = `msg ${isOwn ? 'own' : ''}`;
     msgDiv.id = `msg-${key}`;
     
-    let actions = '';
-    if (isOwn || isAdmin) {
-        actions = `
-            <div class="msg-actions">
-                ${isOwn ? `<button class="chat-action-btn" onclick="editMsg('${key}', '${msg.text}')">Edit</button>` : ''}
-                <button class="chat-action-btn" onclick="deleteMsg('${key}')">Delete</button>
-            </div>
-        `;
-    }
-
     msgDiv.innerHTML = `
         <div class="msg-av">${msg.name.charAt(0).toUpperCase()}</div>
         <div>
             <div class="msg-name">${msg.name}</div>
             <div class="msg-bubble">
-                ${actions}
+                ${(isOwn || isAdmin) ? `<div class="msg-actions">
+                    ${isOwn ? `<button class="chat-action-btn" onclick="editMsg('${key}', '${msg.text}')">Edit</button>` : ''}
+                    <button class="chat-action-btn" onclick="deleteMsg('${key}')">Delete</button>
+                </div>` : ''}
                 <span class="text-content">${msg.text}</span>
             </div>
             <div class="msg-time">${new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
@@ -710,51 +749,34 @@ onChildAdded(ref(db, 'messages'), (snapshot) => {
     container.scrollTop = container.scrollHeight;
 });
 
-onChildRemoved(ref(db, 'messages'), (snapshot) => {
-    const el = document.getElementById(`msg-${snapshot.key}`);
-    if(el) el.remove();
-});
-
+onChildRemoved(ref(db, 'messages'), (snapshot) => { document.getElementById(`msg-${snapshot.key}`)?.remove(); });
 onChildChanged(ref(db, 'messages'), (snapshot) => {
-    const msg = snapshot.val();
     const el = document.querySelector(`#msg-${snapshot.key} .text-content`);
-    if(el) el.textContent = msg.text + " (edited)";
+    if(el) el.textContent = snapshot.val().text + " (edited)";
 });
 
-window.deleteMsg = (key) => {
-    if(confirm("Delete this message?")) remove(ref(db, `messages/${key}`));
-};
-
+window.deleteMsg = (key) => { if(confirm("Delete this message?")) remove(ref(db, `messages/${key}`)); };
 window.editMsg = (key, oldText) => {
     const newText = prompt("Edit your message:", oldText);
     if(newText && newText !== oldText) update(ref(db, `messages/${key}`), { text: newText });
 };
 
-// INITIALIZE
-window.addEventListener('load', () => {
-    fetchMembers();
-    setTimeout(() => {
-        animateCounter(document.getElementById('c1'), 120, '+');
-        animateCounter(document.getElementById('c2'), 34);
-        animateCounter(document.getElementById('c3'), 1240, '+');
-        animateCounter(document.getElementById('c4'), 8);
-    }, 600);
-});
+window.addEventListener('load', fetchMembers);
 </script>
 
 <script>
-// UI SCRIPTS (Cursor, Particles, etc)
+/* UI SCRIPTS (KEEP THESE AS THEY ARE) */
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
 
-const container = document.getElementById('particles');
+const particles = document.getElementById('particles');
 const leafEmojis = ['🍃','🌿','🍀','🌱','🍂'];
 for (let i = 0; i < 18; i++) {
   const leaf = document.createElement('div');
   leaf.className = 'leaf-p';
   leaf.textContent = leafEmojis[Math.floor(Math.random()*leafEmojis.length)];
   leaf.style.cssText = `left:${Math.random()*100}%;animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*8}s;font-size:${12+Math.random()*14}px;`;
-  container.appendChild(leaf);
+  particles.appendChild(leaf);
 }
 
 function animateCounter(el, target, suffix='') {
@@ -766,11 +788,20 @@ function animateCounter(el, target, suffix='') {
   }, 25);
 }
 
-const reveals = document.querySelectorAll('.reveal');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 60); });
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        animateCounter(document.getElementById('c1'), 120, '+');
+        animateCounter(document.getElementById('c2'), 34);
+        animateCounter(document.getElementById('c3'), 1240, '+');
+        animateCounter(document.getElementById('c4'), 8);
+    }, 600);
+});
+
+// GLOBAL OBSERVER (Shared with fetch function)
+window.obs = new IntersectionObserver(entries => {
+  entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
-reveals.forEach(r => obs.observe(r));
+document.querySelectorAll('.reveal').forEach(r => window.obs.observe(r));
 
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
@@ -783,9 +814,6 @@ function switchTab(name) {
   document.getElementById('tab-' + name).classList.add('active');
 }
 
-function submitJoin() { closeModal('joinModal'); alert('🌿 Application submitted to Google Sheets.'); }
-function submitReg() { closeModal('regModal'); alert('✅ Registered!'); }
-
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
@@ -793,6 +821,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (t) t.scrollIntoView({behavior:'smooth'});
   });
 });
+
 </script>
 </body>
 </html>
