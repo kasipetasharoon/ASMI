@@ -34,7 +34,18 @@
   nav ul li a { color: var(--muted); text-decoration: none; font-size: .85rem; letter-spacing: 1px; padding: 6px 14px; border-radius: 20px; transition: all .3s; }
   nav ul li a:hover, nav ul li a.active { color: var(--g5); background: rgba(57,209,116,.1); }
   .nav-btn { background: linear-gradient(135deg, var(--g4), var(--g5)); color: var(--g1) !important; font-weight: 600 !important; padding: 8px 20px !important; border-radius: 25px !important; }
-  .nav-auth-btn { border: 1px solid var(--g5); color: var(--g5) !important; padding: 6px 18px !important; border-radius: 25px !important; margin-left: 10px; cursor: pointer; text-decoration: none; font-size: 0.85rem; }
+  .nav-auth-btn { border: 1px solid var(--g5); color: var(--g5) !important; padding: 6px 18px !important; border-radius: 25px !important; margin-left: 10px; cursor: pointer; text-decoration: none; font-size: 0.85rem; font-weight: 500; }
+
+  /* BUTTONS */
+  .btn-primary { background: linear-gradient(135deg, var(--g4), var(--g5)); color: var(--g1); font-weight: 600; border: none; padding: 14px 36px; border-radius: 50px; font-size: 1rem; cursor: pointer; transition: all .3s; font-family: 'Outfit', sans-serif; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(57,209,116,0.4); }
+  .btn-outline { background: transparent; color: var(--g5); font-weight: 500; border: 1.5px solid rgba(57,209,116,0.4); padding: 14px 36px; border-radius: 50px; font-size: 1rem; cursor: pointer; transition: all .3s; font-family: 'Outfit', sans-serif; }
+  .btn-outline:hover { background: rgba(57,209,116,0.08); border-color: var(--g5); }
+
+  /* FORMS & INPUTS - THE FIX FOR YOUR SCREENSHOTS */
+  input, textarea, select { width: 100%; background: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(57, 209, 116, 0.2) !important; padding: 12px 16px !important; border-radius: 12px !important; color: white !important; font-family: 'Outfit', sans-serif; outline: none; transition: 0.3s; }
+  input:focus, textarea:focus { border-color: var(--g5) !important; background: rgba(57, 209, 116, 0.08) !important; }
+  label { display: block; font-size: 0.8rem; color: var(--g5); margin-bottom: 6px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
 
   /* HERO */
   #hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; text-align: center; padding: 100px 2rem 60px; }
@@ -61,12 +72,10 @@
 
   /* FEATURES */
   .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-  .feature-card { background: var(--surface); border: 1px solid rgba(57,209,116,0.12); border-radius: 20px; padding: 2rem; transition: all .4s; position: relative; overflow: hidden; cursor: default; }
-  .feature-card:hover { transform: translateY(-6px); border-color: rgba(57,209,116,0.3); }
+  .feature-card { background: var(--surface); border: 1px solid rgba(57,209,116,0.12); border-radius: 20px; padding: 2rem; transition: all .4s; position: relative; overflow: hidden; }
   .feature-icon { width: 52px; height: 52px; border-radius: 14px; background: rgba(57,209,116,0.12); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.2rem; border: 1px solid rgba(57,209,116,0.2); }
   .feature-card h3 { font-size: 1.1rem; font-weight: 600; color: var(--g7); margin-bottom: .6rem; }
   .feature-card p { font-size: .9rem; color: var(--muted); line-height: 1.7; }
-  .feature-tag { display: inline-block; margin-top: 1rem; font-size: .7rem; padding: 3px 10px; border-radius: 20px; background: rgba(57,209,116,0.1); color: var(--g5); border: 1px solid rgba(57,209,116,0.2); letter-spacing: 1px; text-transform: uppercase; }
 
   /* IMPACT */
   .impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
@@ -81,21 +90,18 @@
   .roadmap-item { display: flex; gap: 3rem; margin-bottom: 3.5rem; align-items: flex-start; position: relative; }
   .roadmap-item:nth-child(even) { flex-direction: row-reverse; }
   .roadmap-content { flex: 1; background: var(--surface); border: 1px solid rgba(57,209,116,0.15); border-radius: 16px; padding: 1.5rem; transition: all .4s; }
-  .roadmap-content:hover { border-color: rgba(57,209,116,0.35); transform: scale(1.02); }
   .roadmap-node { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--g4), var(--g3)); border: 3px solid var(--bg); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; position: relative; z-index: 2; box-shadow: 0 0 0 4px rgba(57,209,116,0.2); margin-top: .5rem; animation: nodeGlow 3s ease-in-out infinite; }
-  @keyframes nodeGlow { 0%,100%{box-shadow:0 0 0 4px rgba(57,209,116,0.2)} 50%{box-shadow:0 0 0 8px rgba(57,209,116,0.1),0 0 30px rgba(57,209,116,0.3)} }
+  @keyframes nodeGlow { 0%,100%{box-shadow:0 0 0 4px rgba(57, 209, 116, 0.2)} 50%{box-shadow:0 0 0 8px rgba(57, 209, 116, 0.1)} }
   .rm-date { font-size: .72rem; color: var(--g5); letter-spacing: 2px; text-transform: uppercase; margin-bottom: .4rem; }
   .rm-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--g7); margin-bottom: .4rem; }
   .rm-desc { font-size: .88rem; color: var(--muted); line-height: 1.6; }
-  .rm-badge { display: inline-block; margin-top: .8rem; font-size: .7rem; padding: 3px 10px; border-radius: 20px; }
-  .rm-badge.done { background: rgba(57,209,116,0.12); color: var(--g5); border: 1px solid rgba(57,209,116,0.2); }
-  .rm-badge.upcoming { background: rgba(212,168,67,0.12); color: var(--gold2); border: 1px solid rgba(212,168,67,0.2); }
+  .rm-badge { display: inline-block; margin-top: .8rem; font-size: .7rem; padding: 3px 10px; border-radius: 20px; background: rgba(57,209,116,0.12); color: var(--g5); }
 
   /* MEMBERS */
   .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
   .member-card { background: var(--surface); border: 1px solid rgba(57,209,116,0.1); border-radius: 20px; padding: 1.8rem 1.2rem; text-align: center; transition: all .4s; position: relative; overflow: hidden; opacity: 0; transform: translateY(20px); }
   .member-card.visible { opacity: 1; transform: translateY(0); }
-  .member-avatar { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 1rem; background: linear-gradient(135deg, var(--g3), var(--g4)); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--g8); border: 2px solid rgba(57,209,116,0.3); }
+  .member-avatar { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 1rem; background: linear-gradient(135deg, var(--g3), var(--g4)); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 700; color: var(--g8); border: 2px solid rgba(57,209,116,0.3); }
   .member-name { font-size: 1rem; font-weight: 600; color: var(--g7); margin-bottom: .3rem; }
   .member-role { font-size: .75rem; padding: 3px 12px; border-radius: 20px; display: inline-block; margin-bottom: .8rem; background: rgba(57,209,116,0.1); color: var(--g5); border: 1px solid rgba(57,209,116,0.2); text-transform: capitalize; }
   .member-role.lead { background: rgba(212,168,67,0.12); color: var(--gold2); border-color: rgba(212,168,67,0.2); }
@@ -105,7 +111,7 @@
   #chat { background: var(--surface); border-radius: 24px; max-width: 900px; margin: 0 auto; overflow: hidden; border: 1px solid rgba(57,209,116,0.15); position: relative; min-height: 500px; display: flex; flex-direction: column; }
   .chat-header { padding: 1.2rem 1.5rem; border-bottom: 1px solid rgba(57,209,116,0.1); display: flex; align-items: center; justify-content: space-between; background: rgba(57,209,116,0.04); }
   .online-dot { width: 8px; height: 8px; background: var(--g5); border-radius: 50%; animation: blink 1.5s infinite; }
-  .chat-messages { flex: 1; height: 420px; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; scroll-behavior: smooth; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; scroll-behavior: smooth; }
   .chat-lock-overlay { position: absolute; inset: 0; background: rgba(4,24,13,0.92); backdrop-filter: blur(10px); z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
   .msg { display: flex; gap: 10px; align-items: flex-start; max-width: 85%; }
   .msg.own { flex-direction: row-reverse; align-self: flex-end; }
@@ -114,29 +120,36 @@
   .msg.own .msg-bubble { background: linear-gradient(135deg, var(--g3), rgba(34,168,90,0.5)); color: var(--g8); border-radius: 16px 4px 16px 16px; }
   .msg-name { font-size: .7rem; color: var(--muted); margin-bottom: 3px; }
   .msg-time { font-size: .6rem; color: var(--muted); margin-top: 4px; opacity: 0.7; }
-  .msg-actions { margin-top: 5px; display: flex; gap: 8px; opacity: 0; transition: 0.2s; }
+  
+  /* CHAT ACTIONS (EDIT/REPLY) */
+  .msg-actions { margin-top: 8px; display: flex; gap: 10px; opacity: 0; transition: 0.2s; }
   .msg:hover .msg-actions { opacity: 1; }
-  .chat-action-btn { background: none; border: none; color: var(--g5); cursor: pointer; font-size: 0.65rem; padding: 0; text-decoration: underline; }
+  .chat-action-btn { background: none; border: none; color: var(--g5); cursor: pointer; font-size: 0.65rem; padding: 0; text-decoration: underline; font-weight: 500; }
+  .reply-preview { font-size: 0.75rem; border-left: 3px solid var(--g5); padding-left: 8px; margin-bottom: 8px; color: var(--muted); font-style: italic; }
+
   .chat-input-area { padding: 1rem 1.5rem; border-top: 1px solid rgba(57,209,116,0.1); display: flex; gap: 10px; }
-  .chat-input { flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(57,209,116,0.2); border-radius: 25px; padding: 10px 18px; color: var(--text); font-family: 'Outfit', sans-serif; outline: none; }
   .chat-send { background: linear-gradient(135deg, var(--g4), var(--g5)); color: var(--g1); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-  /* ADMIN SECTION */
-  #admin-section { display: none; }
-  .admin-panel { background: var(--surface); border: 1px solid rgba(57,209,116,0.2); border-radius: 24px; padding: 2.5rem; max-width: 800px; margin: 0 auto; }
+  /* ADMIN SECTION - FIXED LAYOUT */
+  #admin-section { display: none; padding-top: 50px; }
+  .admin-panel { background: var(--surface); border: 1px solid rgba(57, 209, 116, 0.2); border-radius: 24px; padding: 2.5rem; max-width: 800px; margin: 0 auto; }
   .admin-tabs { display: flex; gap: 10px; border-bottom: 1px solid rgba(57,209,116,0.1); padding-bottom: 15px; margin-bottom: 25px; }
-  .admin-tab { background: none; border: 1px solid rgba(57,209,116,0.2); color: var(--muted); padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: 'Outfit', sans-serif; }
+  .admin-tab { background: none; border: 1px solid rgba(57,209,116,0.2); color: var(--muted); padding: 8px 20px; border-radius: 20px; cursor: pointer; }
   .admin-tab.active { background: rgba(57,209,116,0.1); color: var(--g5); border-color: var(--g5); }
   .admin-content { display: none; }
   .admin-content.active { display: block; }
 
-  /* MODALS */
+  /* MODALS - THE FIX FOR CLOSE BUTTON */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 200; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s; }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
-  .modal { background: var(--surface2); border: 1px solid rgba(57,209,116,0.3); border-radius: 24px; padding: 2.5rem; width: 90%; max-width: 450px; }
+  .modal { background: var(--surface2); border: 1px solid rgba(57,209,116,0.3); border-radius: 24px; padding: 2.5rem; width: 90%; max-width: 480px; position: relative; }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--g5); }
+  .modal-close { background: none; border: none; color: var(--muted); font-size: 1.8rem; cursor: pointer; line-height: 1; transition: 0.3s; }
+  .modal-close:hover { color: var(--g5); transform: rotate(90deg); }
 
   footer { background: var(--surface); border-top: 1px solid rgba(57,209,116,0.1); padding: 3rem 2rem; text-align: center; }
-  .reveal { opacity: 0; transform: translateY(40px); transition: 0.8s ease-out; }
+  .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
@@ -178,8 +191,8 @@
     </div>
     <div class="hero-stats">
       <div class="stat-item"><div class="stat-num" id="c1">0</div><div class="stat-label">Members</div></div>
-      <div class="stat-item"><div class="stat-num" id="c3">0</div><div class="stat-label">Trees Planted</div></div>
-      <div class="stat-item"><div class="stat-num" id="c2">0</div><div class="stat-label">Events</div></div>
+      <div class="stat-item"><div class="stat-num" id="c2">0</div><div class="stat-label">Trees Planted</div></div>
+      <div class="stat-item"><div class="stat-num" id="c3">0</div><div class="stat-label">Events</div></div>
     </div>
   </div>
 </section>
@@ -194,13 +207,15 @@
     <div class="features-grid">
       <div class="feature-card reveal"><div class="feature-icon">📋</div><h3>Event Management</h3><p>Admins post events with full details. Members register directly — no Google Forms.</p></div>
       <div class="feature-card reveal"><div class="feature-icon">👥</div><h3>Member Directory</h3><p>Browse every ASMI member with phone, branch, and their specific club role.</p></div>
-      <div class="feature-card reveal"><div class="feature-icon">💬</div><h3>Members Chat</h3><p>Real-time internal chat exclusively for ASMI members and admins.</p></div>
+      <div class="feature-card reveal"><div class="feature-icon">💬</div><h3>Internal Chat</h3><p>Real-time internal chat exclusively for verified ASMI members and admins.</p></div>
       <div class="feature-card reveal"><div class="feature-icon">📊</div><h3>Impact Dashboard</h3><p>Track collective sustainability impact — trees planted and waste reduced.</p></div>
       <div class="feature-card reveal"><div class="feature-icon">🗺️</div><h3>Activity Roadmap</h3><p>Visualize ASMI's journey — all past events displayed as beautiful milestones.</p></div>
-      <div class="feature-card reveal"><div class="feature-icon">🏆</div><h3>Leaderboard</h3><p>Top contributors are showcased monthly — gamified engagement that rewards action.</p></div>
+      <div class="feature-card reveal"><div class="feature-icon">🏆</div><h3>Leaderboard</h3><p>Top contributors showcased monthly — gamified engagement that rewards action.</p></div>
     </div>
   </div>
 </section>
+
+<div class="divider"></div>
 
 <!-- IMPACT -->
 <section id="impact">
@@ -228,31 +243,12 @@
     <div class="roadmap-wrap reveal">
       <div class="roadmap-line"></div>
       <div class="roadmap-item">
-        <div class="roadmap-content">
-          <div class="rm-date">🗓 March 2022</div>
-          <div class="rm-title">🌱 Club Founded</div>
-          <div class="rm-desc">ASMI officially formed at IARE with founding members passionate about sustainability.</div>
-          <span class="rm-badge done">✓ Completed</span>
-        </div>
+        <div class="roadmap-content"><div class="rm-date">🗓 March 2022</div><div class="rm-title">🌱 Club Founded</div><div class="rm-desc">ASMI formed with 12 founding members passionate about sustainability.</div><span class="rm-badge done">✓ Completed</span></div>
         <div class="roadmap-node">🌱</div><div style="flex:1"></div>
       </div>
       <div class="roadmap-item">
         <div style="flex:1"></div><div class="roadmap-node">🌳</div>
-        <div class="roadmap-content">
-          <div class="rm-date">🗓 July 2022</div>
-          <div class="rm-title">🌳 Tree Plantation Drive</div>
-          <div class="rm-desc">First major drive — 200 saplings planted across IARE campus.</div>
-          <span class="rm-badge done">✓ Completed</span>
-        </div>
-      </div>
-      <div class="roadmap-item">
-        <div class="roadmap-content">
-          <div class="rm-date">🗓 Coming Soon 2025</div>
-          <div class="rm-title">🌍 Green Summit IARE</div>
-          <div class="rm-desc">Hosting an inter-college sustainability summit at IARE.</div>
-          <span class="rm-badge upcoming">⏳ Upcoming</span>
-        </div>
-        <div class="roadmap-node" style="background:linear-gradient(135deg,var(--gold),var(--gold2))">🌍</div><div style="flex:1"></div>
+        <div class="roadmap-content"><div class="rm-date">🗓 July 2022</div><div class="rm-title">🌳 Plantation Drive</div><div class="rm-desc">200 saplings planted across IARE campus with 85 student volunteers.</div><span class="rm-badge done">✓ Completed</span></div>
       </div>
     </div>
   </div>
@@ -276,15 +272,18 @@
     <div id="chat">
       <div id="chatLock" class="chat-lock-overlay">
         <h3 style="color:var(--gold); margin-bottom:15px">🔒 Private Channel</h3>
-        <p style="color:var(--muted); margin-bottom:20px; font-size:0.9rem">Login to join the conversation.</p>
         <a href="login.html" class="btn-primary" style="text-decoration:none">Sign In to Participate</a>
       </div>
       <div class="chat-header">
         <div style="display:flex;align-items:center;gap:10px"><div class="online-dot"></div><span style="color:var(--g7)">#general-asmi</span></div>
       </div>
+      <div id="replyBar" style="display:none; padding: 10px; background: rgba(57,209,116,0.1); border-top: 1px solid var(--g3); font-size: 0.8rem;">
+        Replying to <span id="replyName"></span>: <span id="replyText"></span> 
+        <button onclick="cancelReply()" style="color: #ff6b6b; margin-left: 10px; background:none; border:none; cursor:pointer">✕</button>
+      </div>
       <div class="chat-messages" id="chatMessages"></div>
       <div class="chat-input-area">
-        <input class="chat-input" id="chatInput" placeholder="Message the ASMI team...">
+        <input class="chat-input" id="chatInput" placeholder="Message members...">
         <button class="chat-send" id="sendBtn">➤</button>
       </div>
     </div>
@@ -301,10 +300,9 @@
       </div>
       <div class="admin-content active" id="tab-member">
         <h3 style="color:var(--g5); margin-bottom:15px">Member Management</h3>
-        <p style="font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem;">Verification dashboard for administrators.</p>
-        <div class="form-group"><label>Email</label><input type="email" id="newEmail"></div>
-        <div class="form-group"><label>Temp Pass</label><input type="text" id="newPass" value="Asmi123@"></div>
-        <button class="btn-primary" style="width:100%">Register Official Member</button>
+        <div class="form-group"><label>Official Student Email</label><input type="email" id="newEmail" placeholder="student@iare.ac.in"></div>
+        <div class="form-group"><label>Temp Password</label><input type="text" id="newPass" value="Asmi123@"></div>
+        <button class="btn-primary" style="width:100%" onclick="alert('Manual UID required for Auth creation')">Register Member Account</button>
       </div>
     </div>
   </div>
@@ -320,23 +318,22 @@
   </div>
 </section>
 
-<footer>
-  <div class="footer-logo">ASMI</div>
-  <p>© 2025 ASMI Club · IARE Hyderabad</p>
-</footer>
+<footer><div class="footer-logo">ASMI</div><p>© 2025 ASMI Club · IARE Hyderabad</p></footer>
 
-<!-- MODALS -->
+<!-- JOIN MODAL - FIXED CLOSE BUTTON -->
 <div class="modal-overlay" id="joinModal">
   <div class="modal">
-    <h3 style="margin-bottom:20px; color:var(--g5)">🌿 Join ASMI</h3>
-    <div class="form-group"><label>Full Name</label><input id="join_name" placeholder="Name"></div>
-    <div class="form-group"><label>Roll Number</label><input id="join_roll" placeholder="Roll No"></div>
-    <div class="form-group"><label>Phone Number</label><input id="join_phone" placeholder="Phone"></div>
-    <button class="btn-primary" style="width:100%" onclick="submitJoin()">Submit Application</button>
+    <div class="modal-header">
+      <h3 class="modal-title">🌿 Join ASMI</h3>
+      <button class="modal-close" onclick="closeModal('joinModal')">✕</button>
+    </div>
+    <div class="form-group"><label>Full Name</label><input id="join_name" placeholder="Enter Full Name"></div>
+    <div class="form-group"><label>Roll Number</label><input id="join_roll" placeholder="IARE Roll Number"></div>
+    <div class="form-group"><label>Phone Number</label><input id="join_phone" placeholder="+91 XXXXX XXXXX"></div>
+    <button class="btn-primary" style="width:100%" onclick="submitJoin()">Submit Application 🌱</button>
   </div>
 </div>
 
-<!-- FIREBASE & LOGIC -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -353,20 +350,16 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-// Explicit Asia Southeast URL
-const db = getDatabase(app, "https://asmi-76d0b-default-rtdb.asia-southeast1.firebasedatabase.app/");
+const DB_URL = "https://asmi-76d0b-default-rtdb.asia-southeast1.firebasedatabase.app/";
+const db = getDatabase(app, DB_URL);
 
 const DIRECTORY_URL = "https://script.google.com/macros/s/AKfycbwg1bwThXje8rPAqyZczi02Tqu4WnkS7tn3edu3ypOWNu3pXxAD-DZT8WWPnIs6x9TKAQ/exec";
 
 let currentUser = null;
 let isAdmin = false;
+let replyTo = null;
 
-// 1. OBSERVER DEFINITION
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-
-// 2. AUTH LOGIC
+// AUTH OBSERVER
 onAuthStateChanged(auth, async (user) => {
     const chatLock = document.getElementById('chatLock');
     const authBtn = document.getElementById('authNavBtn');
@@ -377,9 +370,7 @@ onAuthStateChanged(auth, async (user) => {
         currentUser = user;
         chatLock.style.display = 'none';
         authBtn.textContent = 'Logout';
-        authBtn.href = "#";
         authBtn.onclick = () => signOut(auth);
-
         const adminSnap = await get(ref(db, `admins/${user.uid}`));
         if (adminSnap.exists()) {
             isAdmin = true;
@@ -396,7 +387,7 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-// 3. MEMBER FETCH
+// LOAD MEMBERS
 async function fetchMembers() {
     const grid = document.getElementById('membersGrid');
     try {
@@ -405,18 +396,18 @@ async function fetchMembers() {
         grid.innerHTML = "";
         data.forEach(m => {
             const name = m.Name || "Member";
-            const role = m['Enter Your Designation/Role in Club'] || "Member";
+            const role = m['Enter Your Designation/Role in Club'] || "Core Member";
             const init = name.split(" ").map(n => n[0]).join("").substring(0,2).toUpperCase();
             const card = document.createElement('div');
             card.className = "member-card reveal";
             card.innerHTML = `<div class="member-avatar">${init}</div><div class="member-name">${name}</div><div class="member-role">${role}</div><div class="member-phone"><a href="tel:${m['Mobile no.']}">📞 Contact</a></div>`;
             grid.appendChild(card);
-            obs.observe(card);
+            setTimeout(() => card.classList.add('visible'), 100);
         });
-    } catch(e) { grid.innerHTML = "Directory currently offline."; }
+    } catch(e) { grid.innerHTML = "Error loading directory."; }
 }
 
-// 4. CHAT
+// CHAT
 document.getElementById('sendBtn').onclick = () => {
     const inp = document.getElementById('chatInput');
     if(!inp.value.trim() || !currentUser) return;
@@ -424,9 +415,11 @@ document.getElementById('sendBtn').onclick = () => {
         uid: currentUser.uid,
         name: currentUser.email.split('@')[0],
         text: inp.value,
-        time: Date.now()
+        time: Date.now(),
+        replyTo: replyTo
     });
     inp.value = "";
+    cancelReply();
 };
 
 onChildAdded(ref(db, 'messages'), (snap) => {
@@ -437,15 +430,45 @@ onChildAdded(ref(db, 'messages'), (snap) => {
     const div = document.createElement('div');
     div.className = `msg ${isOwn ? 'own' : ''}`;
     div.id = `msg-${key}`;
-    div.innerHTML = `<div class="msg-bubble"><div class="msg-name">${m.name}</div><div class="text-content">${m.text}</div><div class="msg-time">${new Date(m.time).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>${(isOwn || isAdmin) ? `<div class="msg-actions"><button class="chat-action-btn" onclick="window.deleteMsg('${key}')">Delete</button></div>` : ''}</div>`;
+    div.innerHTML = `
+      <div class="msg-bubble">
+        <div class="msg-name">${m.name}</div>
+        ${m.replyTo ? `<div class="reply-preview">Replying to ${m.replyTo.name}: ${m.replyTo.text}</div>` : ''}
+        <div class="text-content">${m.text}</div>
+        <div class="msg-time">${new Date(m.time).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
+        <div class="msg-actions">
+           <button class="chat-action-btn" onclick="window.replyMsg('${key}', '${m.name}', '${m.text}')">Reply</button>
+           ${isOwn ? `<button class="chat-action-btn" onclick="window.editMsg('${key}', '${m.text}')">Edit</button>` : ''}
+           ${(isOwn || isAdmin) ? `<button class="chat-action-btn" onclick="window.deleteMsg('${key}')">Delete</button>` : ''}
+        </div>
+      </div>`;
     container.appendChild(div);
     container.scrollTop = container.scrollHeight;
 });
 
+window.replyMsg = (id, name, text) => {
+  replyTo = {id, name, text};
+  document.getElementById('replyBar').style.display = 'block';
+  document.getElementById('replyName').innerText = name;
+  document.getElementById('replyText').innerText = text.substring(0,20) + "...";
+};
+window.cancelReply = () => { replyTo = null; document.getElementById('replyBar').style.display = 'none'; };
+window.editMsg = (key, old) => { 
+  const txt = prompt("Edit Message:", old); 
+  if(txt) update(ref(db, `messages/${key}`), {text: txt + " (edited)"}); 
+};
 window.deleteMsg = (key) => { if(confirm("Delete?")) remove(ref(db, `messages/${key}`)); };
 onChildRemoved(ref(db, 'messages'), (snap) => document.getElementById(`msg-${snap.key}`)?.remove());
+onChildChanged(ref(db, 'messages'), (snap) => {
+  const el = document.querySelector(`#msg-${snap.key} .text-content`);
+  if(el) el.innerText = snap.val().text;
+});
 
-// 5. UI SCRIPTS
+window.addEventListener('load', fetchMembers);
+</script>
+
+<script>
+// UI SCRIPTS
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
 
@@ -454,33 +477,33 @@ for (let i = 0; i < 18; i++) {
   const leaf = document.createElement('div');
   leaf.className = 'leaf-p';
   leaf.textContent = '🍃';
-  leaf.style.cssText = `left:${Math.random()*100}%;animation-duration:${8+Math.random()*5}s`;
+  leaf.style.cssText = `left:${Math.random()*100}%;animation-duration:${8+Math.random()*5}s;animation-delay:${Math.random()*5}s`;
   particles.appendChild(leaf);
 }
 
-function animateCounter(id, target) {
-  let c = 0;
-  const i = setInterval(() => {
-    c += Math.ceil(target/60);
-    if(c >= target) { clearInterval(i); c = target; }
-    document.getElementById(id).textContent = c + "+";
-  }, 25);
-}
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
 
-window.openModal = (id) => document.getElementById(id).classList.add('open');
-window.closeModal = (id) => document.getElementById(id).classList.remove('open');
-window.switchTab = (t) => {
+function switchTab(t) {
   document.querySelectorAll('.admin-tab, .admin-content').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
   event.target.classList.add('active');
 }
 
-document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+function animateCounter(id, target) {
+  let c = 0;
+  const i = setInterval(() => {
+    c += Math.ceil(target/50);
+    if(c >= target) { clearInterval(i); c = target; }
+    document.getElementById(id).textContent = c + "+";
+  }, 30);
+}
+window.onload = () => { animateCounter('c1', 120); animateCounter('c2', 1240); animateCounter('c3', 34); };
 
-window.addEventListener('load', () => {
-    fetchMembers();
-    setTimeout(() => { animateCounter('c1', 120); animateCounter('c2', 34); animateCounter('c3', 1240); }, 600);
-});
+window.openModal = (id) => { document.getElementById(id).classList.add('open'); }
+window.closeModal = (id) => { document.getElementById(id).classList.remove('open'); }
 </script>
 </body>
 </html>
