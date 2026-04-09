@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASMI - Portal Login</title>
+    <title>ASMI - Member Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #04180d;
             --surface: #081f10;
-            --g5: #39d174;
+            --g1: #0a2e1a;
             --g4: #22a85a;
+            --g5: #39d174;
             --text: #e8f5ec;
             --muted: #7fb896;
             --gold: #d4a843;
@@ -21,155 +22,171 @@
             font-family: 'Outfit', sans-serif;
             background: var(--bg);
             color: var(--text);
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
             overflow: hidden;
         }
 
-        /* Reusing your background rings */
-        .ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 1px solid rgba(57, 209, 116, 0.1);
-            pointer-events: none;
+        /* Background Elements */
+        #particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+        .leaf { position: absolute; animation: fall linear infinite; opacity: 0.6; }
+        @keyframes fall {
+            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
         }
 
+        .ring {
+            position: absolute; border-radius: 50%;
+            border: 1px solid rgba(57, 209, 116, 0.05);
+            pointer-events: none; z-index: 0;
+        }
+
+        /* Login Card */
         .login-card {
-            background: rgba(8, 31, 16, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(57, 209, 116, 0.2);
-            padding: 3rem;
-            border-radius: 30px;
+            background: rgba(8, 31, 16, 0.7);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(57, 209, 116, 0.15);
+            padding: 3rem 2.5rem;
+            border-radius: 28px;
             width: 100%;
             max-width: 400px;
             text-align: center;
             position: relative;
             z-index: 10;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
         }
 
+        .logo-area { margin-bottom: 2rem; }
         .logo-text {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 900;
             background: linear-gradient(135deg, var(--g5), var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
+            margin: 0;
         }
-
-        .subtitle {
+        .logo-sub {
+            font-size: 0.7rem;
             color: var(--muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: -5px;
+        }
+
+        .instruction {
             font-size: 0.9rem;
+            color: var(--muted);
             margin-bottom: 2rem;
-            letter-spacing: 1px;
         }
 
-        .form-group {
-            text-align: left;
-            margin-bottom: 1.5rem;
-        }
-
+        /* Forms */
+        .form-group { text-align: left; margin-bottom: 1.2rem; }
         label {
             display: block;
-            font-size: 0.8rem;
-            color: var(--muted);
+            font-size: 0.75rem;
+            color: var(--g5);
             margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
-
         input {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(57, 209, 116, 0.2);
-            padding: 12px 15px;
+            padding: 12px 16px;
             border-radius: 12px;
             color: white;
+            font-family: 'Outfit', sans-serif;
             outline: none;
+            transition: all 0.3s;
             box-sizing: border-box;
-            transition: 0.3s;
         }
-
         input:focus {
             border-color: var(--g5);
-            background: rgba(57, 209, 116, 0.05);
+            background: rgba(57, 209, 116, 0.08);
+            box-shadow: 0 0 15px rgba(57, 209, 116, 0.1);
         }
 
         .btn-login {
             width: 100%;
             background: linear-gradient(135deg, var(--g4), var(--g5));
-            color: #0a2e1a;
+            color: var(--g1);
             border: none;
             padding: 14px;
             border-radius: 12px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             font-size: 1rem;
             margin-top: 1rem;
             transition: 0.3s;
+            font-family: 'Outfit', sans-serif;
         }
-
         .btn-login:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(57, 209, 116, 0.3);
+            box-shadow: 0 10px 25px rgba(57, 209, 116, 0.3);
+        }
+        .btn-login:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
-        .footer-link {
-            margin-top: 1.5rem;
-            font-size: 0.85rem;
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
             color: var(--muted);
-        }
-
-        .footer-link a {
-            color: var(--g5);
             text-decoration: none;
+            font-size: 0.85rem;
+            transition: 0.3s;
         }
+        .back-link:hover { color: var(--g5); }
 
-        /* Leaf Particles */
-        #particles { position: fixed; inset: 0; pointer-events: none; }
-        .leaf { position: absolute; animation: fall linear infinite; }
-        @keyframes fall {
-            0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.6; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        #errorMessage {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            min-height: 1.2rem;
         }
     </style>
 </head>
 <body>
 
     <div id="particles"></div>
-    <div class="ring" style="width: 500px; height: 500px; top: -10%; right: -10%;"></div>
-    <div class="ring" style="width: 400px; height: 400px; bottom: -5%; left: -5%;"></div>
+    <div class="ring" style="width: 600px; height: 600px; top: -150px; left: -150px;"></div>
+    <div class="ring" style="width: 400px; height: 400px; bottom: -100px; right: -100px;"></div>
 
     <div class="login-card">
-        <div class="logo-text">ASMI</div>
-        <div class="subtitle">MEMBER & ADMIN PORTAL</div>
+        <div class="logo-area">
+            <h1 class="logo-text">ASMI</h1>
+            <div class="logo-sub">Internal Portal</div>
+        </div>
+        
+        <p class="instruction">Enter your credentials to access the ASMI hub.</p>
 
-        <div id="loginForm">
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="email" placeholder="name@iare.ac.in">
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="password" placeholder="••••••••">
-            </div>
-            <button class="btn-login" onclick="handleLogin()">Sign In</button>
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="email@iare.ac.in" required>
         </div>
 
-        <div class="footer-link">
-            Not a club member? <a href="index.html#join-section">Apply to Join</a>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="••••••••" required>
         </div>
-        <div class="footer-link" style="margin-top: 10px;">
-            <a href="index.html" style="color: var(--muted);">← Back to Home</a>
-        </div>
+
+        <div id="errorMessage"></div>
+
+        <button class="btn-login" id="loginBtn" onclick="handleLogin()">Sign In to Hub</button>
+
+        <a href="ASMI_website_full.html" class="back-link">← Return to Public Site</a>
     </div>
 
-    <!-- Firebase SDKs -->
     <script type="module">
+        // Firebase Setup
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
@@ -189,45 +206,69 @@
         window.handleLogin = async () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const btn = document.getElementById('loginBtn');
+            const errDisplay = document.getElementById('errorMessage');
 
-            if(!email || !password) return alert("Please fill all fields");
+            if(!email || !password) {
+                errDisplay.textContent = "Please enter both email and password.";
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = "Verifying...";
+            errDisplay.textContent = "";
 
             try {
+                // 1. Authenticate with Firebase
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
-                // Check Permissions in RTDB
-                const adminRef = ref(db, 'admins/' + user.uid);
-                const memberRef = ref(db, 'members/' + user.uid);
+                // 2. Check Permissions in Realtime Database
+                const adminRef = ref(db, `admins/${user.uid}`);
+                const memberRef = ref(db, `members/${user.uid}`);
 
-                const [adminSnap, memberSnap] = await Promise.all([get(adminRef), get(memberSnap)]);
+                const [adminSnap, memberSnap] = await Promise.all([
+                    get(adminRef),
+                    get(memberRef)
+                ]);
 
                 if (adminSnap.exists() || memberSnap.exists()) {
-                    // Success - redirect to main site
-                    window.location.href = "index.html"; 
+                    // Success: User is authorized
+                    window.location.href = "ASMI_website_full.html";
                 } else {
-                    // Authenticated but not in ASMI Database
-                    await auth.signOut();
-                    alert("Access Denied: Your account is not registered as an ASMI Member or Admin.");
+                    // Unauthorized: Not in our database
+                    await signOut(auth);
+                    errDisplay.textContent = "Access Denied: You are not a registered ASMI member.";
+                    btn.disabled = false;
+                    btn.textContent = "Sign In to Hub";
                 }
 
             } catch (error) {
-                alert(error.message);
+                btn.disabled = false;
+                btn.textContent = "Sign In to Hub";
+                if(error.code === 'auth/invalid-credential') {
+                    errDisplay.textContent = "Invalid email or password.";
+                } else {
+                    errDisplay.textContent = "An error occurred. Please try again.";
+                }
+                console.error(error);
             }
         };
 
-        // Simple Leaves Animation
-        const particles = document.getElementById('particles');
-        const leafEmojis = ['🍃', '🌿', '🌱'];
-        setInterval(() => {
+        // Aesthetic Leaf Particles Logic
+        const container = document.getElementById('particles');
+        const emojis = ['🍃', '🌿', '🌱'];
+        function createLeaf() {
             const leaf = document.createElement('div');
             leaf.className = 'leaf';
-            leaf.textContent = leafEmojis[Math.floor(Math.random()*leafEmojis.length)];
+            leaf.textContent = emojis[Math.floor(Math.random()*emojis.length)];
             leaf.style.left = Math.random() * 100 + 'vw';
-            leaf.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            particles.appendChild(leaf);
-            setTimeout(() => leaf.remove(), 5000);
-        }, 300);
+            leaf.style.fontSize = (Math.random() * 10 + 15) + 'px';
+            leaf.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            container.appendChild(leaf);
+            setTimeout(() => leaf.remove(), 6000);
+        }
+        setInterval(createLeaf, 400);
     </script>
 </body>
 </html>
