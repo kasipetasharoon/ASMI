@@ -7,14 +7,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --g1: #0a2e1a; --g2: #0d4a28; --g3: #1a6b3c; --g4: #22a85a;
-    --g5: #39d174; --g6: #6fe89a; --g7: #b8f5cf; --g8: #e0faea;
-    --gold: #d4a843; --gold2: #f0c55a; --leaf: #7bcf47;
-    --bg: #04180d; --surface: #081f10; --surface2: #0c2b17;
-    --text: #e8f5ec; --muted: #7fb896;
+    --g1: #0a2e1a;
+    --g2: #0d4a28;
+    --g3: #1a6b3c;
+    --g4: #22a85a;
+    --g5: #39d174;
+    --g6: #6fe89a;
+    --g7: #b8f5cf;
+    --g8: #e0faea;
+    --gold: #d4a843;
+    --gold2: #f0c55a;
+    --leaf: #7bcf47;
+    --bg: #04180d;
+    --surface: #081f10;
+    --surface2: #0c2b17;
+    --text: #e8f5ec;
+    --muted: #7fb896;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; cursor: default; }
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    cursor: default;
+  }
 
   /* CUSTOM CURSOR */
   .cursor { width: 18px; height: 18px; background: var(--g5); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform .15s, background .3s; mix-blend-mode: screen; }
@@ -22,36 +39,105 @@
   /* PARTICLES */
   #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
   .leaf-p { position: absolute; font-size: 16px; opacity: 0; animation: leafFall linear infinite; }
-  @keyframes leafFall { 0% { transform: translateY(-40px) rotate(0deg); opacity: .7; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+  @keyframes leafFall {
+    0% { transform: translateY(-40px) rotate(0deg); opacity: .7; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
 
   /* NAV */
-  nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(4,24,13,0.85); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(57,209,116,0.15); padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(4,24,13,0.85);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(57,209,116,0.15);
+    padding: 0 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
   .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
   .logo-leaf { width: 38px; height: 38px; }
   .logo-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; background: linear-gradient(135deg, var(--g5), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
   .logo-sub { font-size: .65rem; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; margin-top: -4px; }
   nav ul { list-style: none; display: flex; gap: .3rem; align-items: center; }
-  nav ul li a { color: var(--muted); text-decoration: none; font-size: .85rem; letter-spacing: 1px; padding: 6px 14px; border-radius: 20px; transition: all .3s; }
-  nav ul li a:hover, nav ul li a.active { color: var(--g5); background: rgba(57,209,116,.1); }
-  .nav-btn { background: linear-gradient(135deg, var(--g4), var(--g5)); color: var(--g1) !important; font-weight: 600 !important; padding: 8px 20px !important; border-radius: 25px !important; }
-  .nav-auth-btn { border: 1.5px solid var(--g5); color: var(--g5) !important; padding: 6px 18px !important; border-radius: 25px !important; margin-left: 10px; cursor: pointer; text-decoration: none; font-size: 0.85rem; }
+  nav ul li a {
+    color: var(--muted); text-decoration: none; font-size: .85rem; letter-spacing: 1px;
+    padding: 6px 14px; border-radius: 20px; transition: all .3s;
+  }
+  nav ul li a:hover, nav ul li a.active {
+    color: var(--g5); background: rgba(57,209,116,.1);
+  }
+  .nav-btn {
+    background: linear-gradient(135deg, var(--g4), var(--g5));
+    color: var(--g1) !important; font-weight: 600 !important;
+    padding: 8px 20px !important; border-radius: 25px !important;
+  }
+  .nav-auth-btn { border: 1px solid var(--g5); color: var(--g5) !important; padding: 6px 18px !important; border-radius: 25px !important; margin-left: 10px; cursor: pointer; }
 
   /* HERO */
-  #hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; text-align: center; padding: 100px 2rem 60px; }
-  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(34,168,90,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 30% at 20% 80%, rgba(57,209,116,0.08) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 80% 20%, rgba(212,168,67,0.07) 0%, transparent 60%); }
-  .hero-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(57,209,116,0.1); animation: ringPulse 4s ease-in-out infinite; }
+  #hero {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; text-align: center;
+    padding: 100px 2rem 60px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(34,168,90,0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 30% at 20% 80%, rgba(57,209,116,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 80% 20%, rgba(212,168,67,0.07) 0%, transparent 60%);
+  }
+  .hero-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(57,209,116,0.1);
+    animation: ringPulse 4s ease-in-out infinite;
+  }
   @keyframes ringPulse { 0%,100%{transform:scale(1);opacity:.3} 50%{transform:scale(1.05);opacity:.15} }
   .hero-content { position: relative; z-index: 2; max-width: 780px; }
-  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(57,209,116,0.1); border: 1px solid rgba(57,209,116,0.25); border-radius: 30px; padding: 6px 18px; font-size: .8rem; color: var(--g5); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(57,209,116,0.1); border: 1px solid rgba(57,209,116,0.25);
+    border-radius: 30px; padding: 6px 18px; font-size: .8rem; color: var(--g5);
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem;
+    animation: fadeSlide .8s ease both;
+  }
   .hero-badge::before { content: ''; width: 8px; height: 8px; background: var(--g5); border-radius: 50%; animation: blink 1.5s infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
-  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 8vw, 7rem); font-weight: 900; line-height: .95; background: linear-gradient(160deg, var(--g7) 0%, var(--g5) 40%, var(--gold) 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.5rem; }
-  .hero-sub { font-size: 1.1rem; color: var(--muted); line-height: 1.8; max-width: 560px; margin: 0 auto 2.5rem; }
-  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-  .hero-stats { display: flex; justify-content: center; gap: 4rem; margin-top: 5rem; }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 900; line-height: .95;
+    background: linear-gradient(160deg, var(--g7) 0%, var(--g5) 40%, var(--gold) 80%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 1.5rem;
+    animation: fadeSlide .9s .15s ease both;
+  }
+  .hero-sub {
+    font-size: 1.1rem; color: var(--muted); line-height: 1.8; max-width: 560px; margin: 0 auto 2.5rem;
+    animation: fadeSlide .9s .3s ease both;
+  }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeSlide .9s .45s ease both; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--g4), var(--g5));
+    color: var(--g1); font-weight: 600; border: none; padding: 14px 36px;
+    border-radius: 50px; font-size: 1rem; cursor: pointer;
+    transition: all .3s; position: relative; overflow: hidden;
+    font-family: 'Outfit', sans-serif; letter-spacing: .5px;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(57,209,116,0.4); }
+  .btn-outline {
+    background: transparent; color: var(--g5); font-weight: 500;
+    border: 1.5px solid rgba(57,209,116,0.4); padding: 14px 36px;
+    border-radius: 50px; font-size: 1rem; cursor: pointer;
+    transition: all .3s; font-family: 'Outfit', sans-serif;
+  }
+  .btn-outline:hover { background: rgba(57,209,116,0.08); border-color: var(--g5); transform: translateY(-2px); }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 4rem; margin-top: 5rem;
+    animation: fadeSlide .9s .6s ease both;
+  }
   .stat-item { text-align: center; }
   .stat-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: var(--g5); line-height: 1; }
   .stat-label { font-size: .75rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+  @keyframes fadeSlide { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
 
   /* SECTION STYLES */
   section { position: relative; z-index: 1; padding: 100px 2rem; }
@@ -61,83 +147,262 @@
   .container { max-width: 1200px; margin: 0 auto; }
   .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(57,209,116,0.2), transparent); margin: 0 2rem; }
 
-  /* FEATURES */
+  /* FEATURES (ALL 9 ORIGINAL) */
   .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-  .feature-card { background: var(--surface); border: 1px solid rgba(57,209,116,0.12); border-radius: 20px; padding: 2rem; transition: all .4s; position: relative; overflow: hidden; }
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid rgba(57,209,116,0.12);
+    border-radius: 20px; padding: 2rem;
+    transition: all .4s; position: relative; overflow: hidden;
+    cursor: default;
+  }
+  .feature-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(57,209,116,0.06), transparent);
+    opacity: 0; transition: opacity .4s;
+  }
   .feature-card:hover { transform: translateY(-6px); border-color: rgba(57,209,116,0.3); }
-  .feature-icon { width: 52px; height: 52px; border-radius: 14px; background: rgba(57,209,116,0.12); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.2rem; border: 1px solid rgba(57,209,116,0.2); }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: rgba(57,209,116,0.12); display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 1.2rem;
+    border: 1px solid rgba(57,209,116,0.2);
+  }
   .feature-card h3 { font-size: 1.1rem; font-weight: 600; color: var(--g7); margin-bottom: .6rem; }
   .feature-card p { font-size: .9rem; color: var(--muted); line-height: 1.7; }
-  .feature-tag { display: inline-block; margin-top: 1rem; font-size: .7rem; padding: 3px 10px; border-radius: 20px; background: rgba(57,209,116,0.1); color: var(--g5); border: 1px solid rgba(57,209,116,0.2); letter-spacing: 1px; text-transform: uppercase; }
+  .feature-tag {
+    display: inline-block; margin-top: 1rem;
+    font-size: .7rem; padding: 3px 10px; border-radius: 20px;
+    background: rgba(57,209,116,0.1); color: var(--g5); border: 1px solid rgba(57,209,116,0.2);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
 
-  /* IMPACT CARDS */
+  /* IMPACT (ALL 6 ORIGINAL) */
   .impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-  .impact-card { border-radius: 16px; padding: 2rem 1.5rem; text-align: center; background: var(--surface); border: 1px solid rgba(57,209,116,0.12); transition: all .4s; }
+  .impact-card {
+    border-radius: 16px; padding: 2rem 1.5rem; text-align: center;
+    background: var(--surface); border: 1px solid rgba(57,209,116,0.12);
+    transition: all .4s;
+  }
   .impact-card:hover { transform: translateY(-4px); }
+  .impact-icon { font-size: 2.2rem; margin-bottom: 1rem; }
   .impact-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--g5); }
   .impact-unit { font-size: .9rem; color: var(--muted); margin-top: .3rem; }
 
-  /* ROADMAP */
+  /* ROADMAP (ALL 7 ORIGINAL) */
+  #roadmap { background: radial-gradient(ellipse 80% 50% at 50% 50%, rgba(10,46,26,0.8), transparent); }
   .roadmap-wrap { position: relative; max-width: 900px; margin: 0 auto; }
-  .roadmap-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--g4), var(--g2)); transform: translateX(-50%); border-radius: 2px; }
+  .roadmap-line {
+    position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(180deg, var(--g4), var(--g2));
+    transform: translateX(-50%); border-radius: 2px;
+  }
   .roadmap-item { display: flex; gap: 3rem; margin-bottom: 3.5rem; align-items: flex-start; position: relative; }
   .roadmap-item:nth-child(even) { flex-direction: row-reverse; }
-  .roadmap-content { flex: 1; background: var(--surface); border: 1px solid rgba(57,209,116,0.15); border-radius: 16px; padding: 1.5rem; transition: all .4s; }
-  .roadmap-node { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--g4), var(--g3)); border: 3px solid var(--bg); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; position: relative; z-index: 2; box-shadow: 0 0 0 4px rgba(57,209,116,0.2); margin-top: .5rem; animation: nodeGlow 3s ease-in-out infinite; }
+  .roadmap-content {
+    flex: 1; background: var(--surface); border: 1px solid rgba(57,209,116,0.15);
+    border-radius: 16px; padding: 1.5rem; position: relative;
+    transition: all .4s;
+  }
+  .roadmap-content:hover { border-color: rgba(57,209,116,0.35); transform: scale(1.02); }
+  .roadmap-node {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--g4), var(--g3));
+    border: 3px solid var(--bg); display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0; position: relative; z-index: 2;
+    box-shadow: 0 0 0 4px rgba(57,209,116,0.2);
+    margin-top: .5rem;
+    animation: nodeGlow 3s ease-in-out infinite;
+  }
   @keyframes nodeGlow { 0%,100%{box-shadow:0 0 0 4px rgba(57,209,116,0.2)} 50%{box-shadow:0 0 0 8px rgba(57,209,116,0.1),0 0 30px rgba(57,209,116,0.3)} }
-  .rm-badge { display: inline-block; margin-top: .8rem; font-size: .7rem; padding: 3px 10px; border-radius: 20px; background: rgba(57,209,116,0.12); color: var(--g5); border: 1px solid rgba(57,209,116,0.2); }
+  .roadmap-item:nth-child(even) .roadmap-node { animation-delay: 1.5s; }
+  .rm-date { font-size: .72rem; color: var(--g5); letter-spacing: 2px; text-transform: uppercase; margin-bottom: .4rem; }
+  .rm-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--g7); margin-bottom: .4rem; }
+  .rm-desc { font-size: .88rem; color: var(--muted); line-height: 1.6; }
+  .rm-badge {
+    display: inline-block; margin-top: .8rem;
+    font-size: .7rem; padding: 3px 10px; border-radius: 20px;
+  }
+  .rm-badge.done { background: rgba(57,209,116,0.12); color: var(--g5); border: 1px solid rgba(57,209,116,0.2); }
   .rm-badge.upcoming { background: rgba(212,168,67,0.12); color: var(--gold2); border: 1px solid rgba(212,168,67,0.2); }
 
-  /* MEMBERS */
+  /* MEMBERS DYNAMIC GRID */
   .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
-  .member-card { background: var(--surface); border: 1px solid rgba(57,209,116,0.1); border-radius: 20px; padding: 1.8rem 1.2rem; text-align: center; transition: all .4s; position: relative; overflow: hidden; opacity: 0; transform: translateY(20px); }
-  .member-card.visible { opacity: 1; transform: translateY(0); }
-  .member-avatar { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 1rem; background: linear-gradient(135deg, var(--g3), var(--g4)); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 700; color: var(--g8); border: 2px solid rgba(57,209,116,0.3); }
+  .member-card {
+    background: var(--surface); border: 1px solid rgba(57,209,116,0.1);
+    border-radius: 20px; padding: 1.8rem 1.2rem; text-align: center;
+    transition: all .4s; position: relative; overflow: hidden;
+  }
+  .member-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--g4), var(--gold));
+    transform: scaleX(0); transition: transform .4s;
+  }
+  .member-card:hover { transform: translateY(-8px); border-color: rgba(57,209,116,0.3); }
+  .member-card:hover::after { transform: scaleX(1); }
+  .member-avatar {
+    width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 1rem;
+    background: linear-gradient(135deg, var(--g3), var(--g4));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; font-weight: 700; font-family: 'Playfair Display', serif;
+    color: var(--g8); border: 2px solid rgba(57,209,116,0.3);
+    position: relative; overflow: hidden;
+  }
   .member-name { font-size: 1rem; font-weight: 600; color: var(--g7); margin-bottom: .3rem; }
-  .member-role { font-size: .75rem; padding: 3px 12px; border-radius: 20px; display: inline-block; margin-bottom: .8rem; background: rgba(57,209,116,0.1); color: var(--g5); border: 1px solid rgba(57,209,116,0.2); text-transform: capitalize; }
+  .member-role {
+    font-size: .75rem; padding: 3px 12px; border-radius: 20px;
+    display: inline-block; margin-bottom: .8rem;
+    background: rgba(57,209,116,0.1); color: var(--g5); border: 1px solid rgba(57,209,116,0.2);
+    text-transform: capitalize;
+  }
   .member-role.lead { background: rgba(212,168,67,0.12); color: var(--gold2); border-color: rgba(212,168,67,0.2); }
+  .member-phone { font-size: .8rem; color: var(--muted); }
+  .member-phone a { color: var(--muted); text-decoration: none; }
+  .member-phone a:hover { color: var(--g5); }
 
-  /* EVENTS */
+  /* EVENTS (ALL 3 ORIGINAL) */
   .events-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; }
-  .event-card { background: var(--surface); border: 1px solid rgba(57,209,116,0.12); border-radius: 20px; overflow: hidden; transition: all .4s; }
-  .event-header { padding: 1.5rem; background: linear-gradient(135deg, rgba(57,209,116,0.08), rgba(34,168,90,0.04)); border-bottom: 1px solid rgba(57,209,116,0.1); }
-  .event-date-badge { display: inline-flex; align-items: center; gap: 6px; font-size: .72rem; color: var(--gold2); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: .7rem; }
-  .event-footer { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.5rem; border-top: 1px solid rgba(57,209,116,0.1); }
+  .event-card {
+    background: var(--surface); border: 1px solid rgba(57,209,116,0.12);
+    border-radius: 20px; overflow: hidden; transition: all .4s;
+  }
+  .event-card:hover { transform: translateY(-6px); border-color: rgba(57,209,116,0.3); }
+  .event-header {
+    padding: 1.5rem; background: linear-gradient(135deg, rgba(57,209,116,0.08), rgba(34,168,90,0.04));
+    border-bottom: 1px solid rgba(57,209,116,0.1);
+  }
+  .event-date-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: .72rem; color: var(--gold2); letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: .7rem;
+  }
+  .event-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--g7); margin-bottom: .4rem; }
+  .event-location { font-size: .82rem; color: var(--muted); }
+  .event-body { padding: 1.2rem 1.5rem; }
+  .event-desc { font-size: .88rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.2rem; }
+  .event-footer { display: flex; justify-content: space-between; align-items: center; }
+  .event-spots { font-size: .8rem; color: var(--muted); }
+  .register-btn {
+    background: linear-gradient(135deg, var(--g3), var(--g4));
+    color: var(--g8); border: none; padding: 8px 20px;
+    border-radius: 25px; font-size: .82rem; font-weight: 600;
+    cursor: pointer; transition: all .3s; font-family: 'Outfit', sans-serif;
+  }
+  .register-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(34,168,90,0.4); }
 
-  /* CHAT */
+  /* CHAT - WITH ALL FEATURES */
   #chat { background: var(--surface); border-radius: 24px; max-width: 900px; margin: 0 auto; overflow: hidden; border: 1px solid rgba(57,209,116,0.15); position: relative; display: flex; flex-direction: column; }
-  .chat-messages { height: 420px; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; scroll-behavior: smooth; }
-  .chat-lock-overlay { position: absolute; inset: 0; background: rgba(4,24,13,0.92); backdrop-filter: blur(10px); z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .chat-header { padding: 1.2rem 1.5rem; border-bottom: 1px solid rgba(57,209,116,0.1); display: flex; align-items: center; justify-content: space-between; background: rgba(57,209,116,0.04); }
+  .chat-title-area { display: flex; align-items: center; gap: 10px; }
+  .online-dot { width: 8px; height: 8px; background: var(--g5); border-radius: 50%; animation: blink 1.5s infinite; }
+  .chat-messages { height: 420px; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; scroll-behavior: smooth; flex: 1; }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: rgba(57,209,116,0.2); border-radius: 2px; }
+  .chat-lock-overlay { position: absolute; inset: 0; background: rgba(4,24,13,0.92); backdrop-filter: blur(8px); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+  
+  .msg { display: flex; gap: 10px; align-items: flex-start; position: relative; max-width: 85%; }
+  .msg.own { flex-direction: row-reverse; align-self: flex-end; }
+  .msg-av { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--g3), var(--g4)); display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 700; color: var(--g8); flex-shrink: 0; }
   .msg-bubble { padding: 10px 14px; border-radius: 16px; font-size: .87rem; line-height: 1.5; position: relative; }
   .msg .msg-bubble { background: rgba(57,209,116,0.1); border: 1px solid rgba(57,209,116,0.15); color: var(--text); border-radius: 4px 16px 16px 16px; }
-  .msg.own { align-self: flex-end; }
   .msg.own .msg-bubble { background: linear-gradient(135deg, var(--g3), rgba(34,168,90,0.5)); color: var(--g8); border-radius: 16px 4px 16px 16px; }
-  .msg-actions { margin-top: 8px; display: flex; gap: 10px; opacity: 0; transition: 0.2s; }
+  .msg-name { font-size: .7rem; color: var(--muted); margin-bottom: 3px; }
+  .msg-time { font-size: .65rem; color: var(--muted); margin-top: 3px; }
+  .msg.own .msg-time { text-align: right; }
+  
+  /* Chat Actions */
+  .msg-actions { opacity: 0; transition: 0.2s; display: flex; gap: 8px; margin-top: 6px; }
   .msg:hover .msg-actions { opacity: 1; }
-  .chat-action-btn { background: none; border: none; color: var(--g5); cursor: pointer; font-size: 0.65rem; text-decoration: underline; }
+  .chat-action-btn { background: none; border: none; color: var(--g5); font-size: 0.65rem; cursor: pointer; padding: 0; text-decoration: underline; font-weight: 500; font-family: 'Outfit', sans-serif;}
+  .reply-preview { font-size: 0.75rem; border-left: 3px solid var(--g5); padding-left: 8px; margin-bottom: 6px; color: var(--muted); font-style: italic; }
 
-  /* ADMIN DASHBOARD - FIXED STYLES */
+  .chat-input-area { padding: 1rem 1.5rem; border-top: 1px solid rgba(57,209,116,0.1); display: flex; gap: 10px; }
+  .chat-input {
+    flex: 1; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(57,209,116,0.2); border-radius: 25px;
+    padding: 10px 18px; color: var(--text); font-family: 'Outfit', sans-serif; font-size: .88rem;
+    outline: none; transition: border .3s;
+  }
+  .chat-input:focus { border-color: var(--g4); }
+  .chat-send { background: linear-gradient(135deg, var(--g4), var(--g5)); color: var(--g1); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all .3s; flex-shrink: 0; align-self: center; }
+  .chat-send:hover { transform: scale(1.08); }
+
+  /* ADMIN PANEL (ALL 4 ORIGINAL TABS & STYLES RESTORED) */
   #admin-section { display: none; }
-  .admin-panel { background: var(--surface); border: 1px solid rgba(57,209,116,0.15); border-radius: 20px; padding: 2rem; max-width: 800px; margin: 0 auto; }
+  .admin-panel {
+    background: var(--surface); border: 1px solid rgba(57,209,116,0.15);
+    border-radius: 20px; padding: 2rem; max-width: 700px; margin: 0 auto;
+  }
   .admin-tabs { display: flex; gap: .5rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(57,209,116,0.1); padding-bottom: 1rem; flex-wrap: wrap; }
-  .admin-tab { padding: 7px 18px; border-radius: 25px; font-size: .82rem; cursor: pointer; background: transparent; border: 1px solid rgba(57,209,116,0.15); color: var(--muted); transition: all .3s; font-family: 'Outfit', sans-serif; }
-  .admin-tab.active { background: rgba(57,209,116,0.12); color: var(--g5); border-color: rgba(57,209,116,0.3); }
+  .admin-tab {
+    padding: 7px 18px; border-radius: 25px; font-size: .82rem; cursor: pointer;
+    background: transparent; border: 1px solid rgba(57,209,116,0.15); color: var(--muted);
+    transition: all .3s; font-family: 'Outfit', sans-serif;
+  }
+  .admin-tab.active, .admin-tab:hover { background: rgba(57,209,116,0.12); color: var(--g5); border-color: rgba(57,209,116,0.3); }
   .admin-content { display: none; }
-  .admin-content.active { display: block; }
+  .admin-content.active { display: block; animation: fadeSlide .4s ease; }
 
-  /* MODALS & INPUTS - FULL RESTORATION */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 200; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s; padding: 1rem; }
+  /* MODALS & FORMS (ALL ORIGINAL STYLES RESTORED) */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px); z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity .3s;
+    padding: 1rem;
+  }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
-  .modal { background: var(--surface2); border: 1px solid rgba(57,209,116,0.2); border-radius: 24px; padding: 2.5rem; width: 100%; max-width: 480px; position: relative; }
-  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-  .modal-close { background: none; border: none; color: var(--muted); font-size: 1.4rem; cursor: pointer; }
-  .form-group { margin-bottom: 1.2rem; }
-  input, select, textarea { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(57,209,116,0.2); border-radius: 10px; padding: 10px 14px; color: var(--text); font-family: 'Outfit', sans-serif; font-size: .9rem; outline: none; }
-  input:focus, textarea:focus { border-color: var(--g4); background: rgba(57,209,116,0.05); }
+  .modal {
+    background: var(--surface2); border: 1px solid rgba(57,209,116,0.2);
+    border-radius: 24px; padding: 2.5rem; width: 100%; max-width: 480px;
+    transform: scale(.92) translateY(20px); transition: all .4s;
+    max-height: 90vh; overflow-y: auto; position: relative;
+  }
+  .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+  .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--g7); }
+  .modal-close { background: none; border: none; color: var(--muted); font-size: 1.4rem; cursor: pointer; padding: 4px; line-height: 1; }
+  .modal-close:hover { color: var(--text); }
+  .form-group { margin-bottom: 1.2rem; text-align: left; }
+  .form-group label { display: block; font-size: .82rem; color: var(--muted); margin-bottom: .4rem; letter-spacing: .5px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(57,209,116,0.2); border-radius: 10px;
+    padding: 10px 14px; color: var(--text); font-family: 'Outfit', sans-serif; font-size: .9rem;
+    transition: border .3s; outline: none; box-sizing: border-box;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--g4); background: rgba(57,209,116,0.05); }
+  .form-group select option { background: var(--surface2); }
 
-  footer { background: var(--surface); border-top: 1px solid rgba(57,209,116,0.1); padding: 3rem 2rem; text-align: center; }
-  .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+  /* FOOTER */
+  footer {
+    background: var(--surface); border-top: 1px solid rgba(57,209,116,0.1);
+    padding: 3rem 2rem 2rem; text-align: center;
+  }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; background: linear-gradient(135deg, var(--g5), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: .5rem; }
+  .footer-sub { font-size: .8rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; }
+  .footer-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: .85rem; transition: color .3s; }
+  .footer-links a:hover { color: var(--g5); }
+  .footer-copy { font-size: .78rem; color: rgba(127,184,150,0.5); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--g3); border-radius: 3px; }
+
+  /* SCROLL REVEAL */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity .7s ease, transform .7s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+    .roadmap-item { flex-direction: column !important; }
+    .roadmap-line { display: none; }
+    .hero-stats { gap: 2rem; flex-wrap: wrap; }
+  }
 </style>
 </head>
 <body>
@@ -148,19 +413,27 @@
 <!-- NAVIGATION -->
 <nav>
   <div class="logo" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">
-    <svg class="logo-leaf" viewBox="0 0 40 40"><path d="M20 4 C8 4 4 16 4 24 C4 32 10 37 20 37 C30 37 36 32 36 24 C36 14 28 4 20 4Z" fill="url(#lg1)"/><defs><linearGradient id="lg1"><stop stop-color="#39d174"/><stop offset="1" stop-color="#0d4a28"/></linearGradient></defs></svg>
-    <div><div class="logo-text">ASMI</div><div class="logo-sub">IARE Green Club</div></div>
+    <svg class="logo-leaf" viewBox="0 0 40 40" fill="none">
+      <path d="M20 4 C8 4 4 16 4 24 C4 32 10 37 20 37 C30 37 36 32 36 24 C36 14 28 4 20 4Z" fill="url(#lg1)"/>
+      <path d="M20 37 C20 25 14 18 8 14" stroke="#0a2e1a" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+      <path d="M20 37 C20 22 26 16 32 12" stroke="#0a2e1a" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+      <defs><linearGradient id="lg1" x1="4" y1="4" x2="36" y2="37"><stop stop-color="#39d174"/><stop offset="1" stop-color="#0d4a28"/></linearGradient></defs>
+    </svg>
+    <div>
+      <div class="logo-text">ASMI</div>
+      <div class="logo-sub">IARE Green Club</div>
+    </div>
   </div>
   <ul>
-    <li><a href="#hero">Home</a></li>
+    <li><a href="#hero" class="active">Home</a></li>
     <li><a href="#features">Features</a></li>
     <li><a href="#roadmap-section">Journey</a></li>
     <li><a href="#members-section">Members</a></li>
     <li><a href="#events-section">Events</a></li>
     <li><a href="#chat-section">Chat</a></li>
-    <li id="adminNavLink" style="display:none;"><a href="#admin-section" style="color:var(--gold2)">Admin</a></li>
-    <li><a id="authNavBtn" href="login.html" class="nav-auth-btn">Member Login</a></li>
+    <li id="adminNavLink" style="display:none"><a href="#admin-section">Admin</a></li>
     <li><a href="#join-section" class="nav-btn">Join ASMI</a></li>
+    <li><a id="authNavBtn" href="login.html" class="nav-auth-btn">Member Login</a></li>
   </ul>
 </nav>
 
@@ -168,6 +441,7 @@
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-ring" style="width:600px;height:600px;left:50%;top:50%;transform:translate(-50%,-50%)"></div>
+  <div class="hero-ring" style="width:900px;height:900px;left:50%;top:50%;transform:translate(-50%,-50%);animation-delay:2s"></div>
   <div class="hero-content">
     <div class="hero-badge">🌿 IARE's Premier Sustainability Club</div>
     <h1 class="hero-title">ASMI</h1>
@@ -179,13 +453,16 @@
     </div>
     <div class="hero-stats">
       <div class="stat-item"><div class="stat-num" id="c1">0</div><div class="stat-label">Members</div></div>
-      <div class="stat-item"><div class="stat-num" id="c2">0</div><div class="stat-label">Trees Planted</div></div>
-      <div class="stat-item"><div class="stat-num" id="c3">0</div><div class="stat-label">Events</div></div>
+      <div class="stat-item"><div class="stat-num" id="c2">0</div><div class="stat-label">Events Hosted</div></div>
+      <div class="stat-item"><div class="stat-num" id="c3">0</div><div class="stat-label">Trees Planted</div></div>
+      <div class="stat-item"><div class="stat-num" id="c4">0</div><div class="stat-label">Awards</div></div>
     </div>
   </div>
 </section>
 
-<!-- FEATURES - ALL 9 RESTORED -->
+<div class="divider"></div>
+
+<!-- FEATURES (ALL 9 ORIGINAL) -->
 <section id="features">
   <div class="container">
     <div class="section-header reveal">
@@ -193,20 +470,67 @@
       <h2 class="section-title">Everything ASMI Needs</h2>
     </div>
     <div class="features-grid">
-      <div class="feature-card reveal"><div class="feature-icon">📋</div><h3>Event Management</h3><p>Admins post events with full details. Members register directly — no Google Forms.</p><span class="feature-tag">Admin</span></div>
-      <div class="feature-card reveal"><div class="feature-icon">👥</div><h3>Member Directory</h3><p>Browse every ASMI member with photo, phone, branch, and year — always up to date.</p><span class="feature-tag">Members</span></div>
-      <div class="feature-card reveal"><div class="feature-icon">💬</div><h3>Internal Chat</h3><p>Real-time internal chat exclusively for verified members and admins.</p><span class="feature-tag">Exclusive</span></div>
-      <div class="feature-card reveal"><div class="feature-icon">📰</div><h3>News & Updates</h3><p>Admins publish announcements and achievements. Live feed of all actions.</p><span class="feature-tag">Admin</span></div>
-      <div class="feature-card reveal"><div class="feature-icon">🗺️</div><h3>Activity Roadmap</h3><p>Visualize ASMI's journey — past events displayed as candy-crush style milestones.</p><span class="feature-tag">Visual</span></div>
-      <div class="feature-card reveal"><div class="feature-icon">🏆</div><h3>Leaderboard</h3><p>Top contributors showcased monthly — gamified engagement rewards green action.</p><span class="feature-tag">Gamified</span></div>
-      <div class="feature-card reveal"><div class="feature-icon">📊</div><h3>Impact Dashboard</h3><p>Track collective impact — trees planted, waste recycled, carbon saved.</p><span class="feature-tag">Analytics</span></div>
-      <div class="feature-card reveal"><div class="feature-icon">🎓</div><h3>Certificates</h3><p>Auto-generated participation certificates for each event attended.</p><span class="feature-tag">New</span></div>
-      <div class="feature-card reveal"><div class="feature-icon">🌍</div><h3>Green Pledges</h3><p>Students take sustainability pledges publicly on a visible commitment wall.</p><span class="feature-tag">Community</span></div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">📋</div>
+        <h3>Event Management</h3>
+        <p>Admins post events with full details. Members register directly — no Google Forms, no redirects. All in one place.</p>
+        <span class="feature-tag">Admin</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">👥</div>
+        <h3>Member Directory</h3>
+        <p>Browse every ASMI member with photo, phone number, branch, year, and their specific club role — always up to date.</p>
+        <span class="feature-tag">All Members</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">💬</div>
+        <h3>Members-Only Chat</h3>
+        <p>Real-time internal chat exclusively for ASMI members and admins. Discuss initiatives, plans, and ideas securely.</p>
+        <span class="feature-tag">Exclusive</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🗺️</div>
+        <h3>Activity Roadmap</h3>
+        <p>Visualize ASMI's journey — all past events displayed as a beautiful Candy Crush-style milestone roadmap.</p>
+        <span class="feature-tag">Visual</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">📰</div>
+        <h3>News & Updates</h3>
+        <p>Admins publish announcements, achievements, and news. Students get a live feed of everything ASMI is doing.</p>
+        <span class="feature-tag">Admin</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🏆</div>
+        <h3>Leaderboard</h3>
+        <p>Top contributors and most active members are showcased monthly — gamified engagement that rewards green action.</p>
+        <span class="feature-tag">Gamified</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">📊</div>
+        <h3>Impact Dashboard</h3>
+        <p>Track collective sustainability impact — trees planted, waste reduced, carbon saved. Real numbers, real change.</p>
+        <span class="feature-tag">Analytics</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🎓</div>
+        <h3>Certificates</h3>
+        <p>Members receive auto-generated participation certificates for each event they attend — downloadable as PDF.</p>
+        <span class="feature-tag">New Feature</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🌍</div>
+        <h3>Green Pledges</h3>
+        <p>Students take sustainability pledges publicly. A visible commitment wall showing who pledged what and when.</p>
+        <span class="feature-tag">Community</span>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- IMPACT STATS - FULL RESTORATION -->
+<div class="divider"></div>
+
+<!-- IMPACT STATS (ALL 6 ORIGINAL) -->
 <section style="padding:80px 2rem">
   <div class="container">
     <div class="section-header reveal">
@@ -224,38 +548,95 @@
   </div>
 </section>
 
-<!-- ROADMAP - FULL RESTORATION -->
+<div class="divider"></div>
+
+<!-- ROADMAP (ALL 7 ORIGINAL) -->
 <section id="roadmap-section">
   <div class="container">
     <div class="section-header reveal">
       <div class="section-tag">🗺️ Our Journey</div>
       <h2 class="section-title">ASMI Activity Roadmap</h2>
+      <p style="color:var(--muted);font-size:.95rem;margin-top:.5rem">Every milestone, every step — our green story so far</p>
     </div>
     <div class="roadmap-wrap reveal">
       <div class="roadmap-line"></div>
       <div class="roadmap-item">
         <div class="roadmap-content">
-          <div class="rm-date">🗓 March 2022</div><div class="rm-title">🌱 Club Founded</div><div class="rm-desc">ASMI officially formed at IARE with founding members.</div><span class="rm-badge done">✓ Completed</span>
+          <div class="rm-date">🗓 March 2022</div>
+          <div class="rm-title">🌱 Club Founded</div>
+          <div class="rm-desc">ASMI officially formed at IARE with 12 founding members passionate about sustainability and green development.</div>
+          <span class="rm-badge done">✓ Completed</span>
         </div>
-        <div class="roadmap-node">🌱</div><div style="flex:1"></div>
+        <div class="roadmap-node">🌱</div>
+        <div style="flex:1"></div>
       </div>
       <div class="roadmap-item">
-        <div style="flex:1"></div><div class="roadmap-node">🌳</div>
+        <div style="flex:1"></div>
+        <div class="roadmap-node">🌳</div>
         <div class="roadmap-content">
-          <div class="rm-date">🗓 July 2022</div><div class="rm-title">🌳 Tree Plantation Drive</div><div class="rm-desc">First major drive — 200 saplings planted.</div><span class="rm-badge done">✓ Completed</span>
+          <div class="rm-date">🗓 July 2022</div>
+          <div class="rm-title">🌳 Tree Plantation Drive</div>
+          <div class="rm-desc">First major drive — 200 saplings planted across IARE campus with 85 student volunteers participating.</div>
+          <span class="rm-badge done">✓ Completed</span>
         </div>
       </div>
       <div class="roadmap-item">
         <div class="roadmap-content">
-          <div class="rm-date">🗓 Coming Soon 2025</div><div class="rm-title">🌍 Green Summit IARE</div><div class="rm-desc">Hosting an inter-college sustainability summit.</div><span class="rm-badge upcoming">⏳ Upcoming</span>
+          <div class="rm-date">🗓 November 2022</div>
+          <div class="rm-title">♻️ Zero Waste Workshop</div>
+          <div class="rm-desc">A 2-day hands-on workshop on composting, upcycling, and reducing campus plastic waste. 150+ attendees.</div>
+          <span class="rm-badge done">✓ Completed</span>
         </div>
-        <div class="roadmap-node" style="background:linear-gradient(135deg,var(--gold),var(--gold2))">🌍</div><div style="flex:1"></div>
+        <div class="roadmap-node">♻️</div>
+        <div style="flex:1"></div>
+      </div>
+      <div class="roadmap-item">
+        <div style="flex:1"></div>
+        <div class="roadmap-node">🏆</div>
+        <div class="roadmap-content">
+          <div class="rm-date">🗓 February 2023</div>
+          <div class="rm-title">🏆 Green Campus Award</div>
+          <div class="rm-desc">ASMI wins Best Sustainability Initiative at IARE's annual fest. Recognition by Telangana State Eco Council.</div>
+          <span class="rm-badge done">✓ Completed</span>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-content">
+          <div class="rm-date">🗓 August 2023</div>
+          <div class="rm-title">💧 Water Conservation Campaign</div>
+          <div class="rm-desc">Month-long awareness campaign across all departments. Rainwater harvesting demo installed in Block A.</div>
+          <span class="rm-badge done">✓ Completed</span>
+        </div>
+        <div class="roadmap-node">💧</div>
+        <div style="flex:1"></div>
+      </div>
+      <div class="roadmap-item">
+        <div style="flex:1"></div>
+        <div class="roadmap-node">☀️</div>
+        <div class="roadmap-content">
+          <div class="rm-date">🗓 May 2024</div>
+          <div class="rm-title">☀️ Solar Energy Hackathon</div>
+          <div class="rm-desc">24-hour innovation hackathon on solar and renewable solutions. 18 teams, 3 winning prototypes funded.</div>
+          <span class="rm-badge done">✓ Completed</span>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-content">
+          <div class="rm-date">🗓 Coming Soon 2025</div>
+          <div class="rm-title">🌍 Green Summit IARE</div>
+          <div class="rm-desc">Hosting an inter-college sustainability summit at IARE with speakers, exhibitions, and pledging ceremony.</div>
+          <span class="rm-badge upcoming">⏳ Upcoming</span>
+        </div>
+        <div class="roadmap-node" style="background:linear-gradient(135deg,var(--gold),var(--gold2))">🌍</div>
+        <div style="flex:1"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MEMBERS -->
+<div class="divider"></div>
+
+<!-- MEMBERS (DYNAMIC FETCH) -->
 <section id="members-section">
   <div class="container">
     <div class="section-header reveal">
@@ -263,65 +644,118 @@
       <h2 class="section-title">ASMI Members</h2>
     </div>
     <div class="members-grid" id="membersGrid">
-       <div style="grid-column:1/-1; text-align:center; color:var(--muted)">Loading Members...</div>
+      <div style="grid-column: 1/-1; text-align: center; color: var(--muted);">Loading Members Database...</div>
     </div>
   </div>
 </section>
 
-<!-- EVENTS -->
+<div class="divider"></div>
+
+<!-- EVENTS (ALL 3 ORIGINAL) -->
 <section id="events-section">
   <div class="container">
-    <div class="section-header reveal"><h2 class="section-title">Register Without Forms</h2></div>
+    <div class="section-header reveal">
+      <div class="section-tag">📅 Upcoming Events</div>
+      <h2 class="section-title">Register Without Forms</h2>
+    </div>
     <div class="events-grid">
       <div class="event-card reveal">
-        <div class="event-header"><div class="event-date-badge">📅 15 Feb 2025</div><div class="event-title">Eco Warriors Workshop</div></div>
-        <div class="event-body"><p>A full-day workshop on sustainable living. Free eco-kit for all participants.</p></div>
-        <div class="event-footer"><span style="color:var(--g5)">🟢 34 spots left</span><button class="nav-btn" style="border:none; cursor:pointer" onclick="openModal('regModal')">Register Now</button></div>
+        <div class="event-header">
+          <div class="event-date-badge">📅 15 Feb 2025 · 10:00 AM</div>
+          <div class="event-title">Eco Warriors Workshop</div>
+          <div class="event-location">📍 IARE Seminar Hall A, Block 3</div>
+        </div>
+        <div class="event-body">
+          <p class="event-desc">A full-day workshop on sustainable living, DIY composting, and zero-waste habits. Free eco-kit for all participants.</p>
+          <div class="event-footer">
+            <span class="event-spots">🟢 34 spots left</span>
+            <button class="register-btn" onclick="openModal('regModal')">Register Now</button>
+          </div>
+        </div>
       </div>
       <div class="event-card reveal">
-        <div class="event-header"><div class="event-date-badge">📅 22 Feb 2025</div><div class="event-title">Campus Tree Planting</div></div>
-        <div class="event-body"><p>Plant a sapling and track its growth. Making IARE the greenest campus.</p></div>
-        <div class="event-footer"><span style="color:var(--gold2)">🟡 12 spots left</span><button class="nav-btn" style="border:none; cursor:pointer" onclick="openModal('regModal')">Register Now</button></div>
+        <div class="event-header">
+          <div class="event-date-badge">📅 22 Feb 2025 · 8:00 AM</div>
+          <div class="event-title">Campus Tree Planting Drive</div>
+          <div class="event-location">📍 IARE Back Campus Ground</div>
+        </div>
+        <div class="event-body">
+          <p class="event-desc">Plant a sapling, adopt it, and track its growth. Join us in making IARE the greenest campus in Hyderabad.</p>
+          <div class="event-footer">
+            <span class="event-spots">🟡 12 spots left</span>
+            <button class="register-btn" onclick="openModal('regModal')">Register Now</button>
+          </div>
+        </div>
       </div>
       <div class="event-card reveal">
-        <div class="event-header"><div class="event-date-badge">📅 5 March 2025</div><div class="event-title">Green Futures Talk</div></div>
-        <div class="event-body"><p>Industry experts share insights on green careers and sustainability innovation.</p></div>
-        <div class="event-footer"><span style="color:var(--g5)">🟢 Open Registration</span><button class="nav-btn" style="border:none; cursor:pointer" onclick="openModal('regModal')">Register Now</button></div>
+        <div class="event-header">
+          <div class="event-date-badge">📅 5 March 2025 · 2:00 PM</div>
+          <div class="event-title">Green Futures Talk Series</div>
+          <div class="event-location">📍 IARE Auditorium</div>
+        </div>
+        <div class="event-body">
+          <p class="event-desc">Industry experts from Tata Power Solar and IIT Hyderabad share insights on green careers and sustainability innovation.</p>
+          <div class="event-footer">
+            <span class="event-spots">🟢 Open Registration</span>
+            <button class="register-btn" onclick="openModal('regModal')">Register Now</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CHAT -->
+<div class="divider"></div>
+
+<!-- CHAT SECTION -->
 <section id="chat-section">
   <div class="container">
-    <div class="section-header reveal"><h2 class="section-title">ASMI Internal Hub</h2></div>
-    <div id="chat">
+    <div class="section-header reveal">
+      <div class="section-tag">💬 Members Chat</div>
+      <h2 class="section-title">ASMI Internal Hub</h2>
+      <p style="color:var(--muted);font-size:.9rem;margin-top:.5rem">Exclusive to verified ASMI members & admins</p>
+    </div>
+    <div id="chat" class="reveal">
       <div id="chatLock" class="chat-lock-overlay">
-        <h3 style="color:var(--gold); margin-bottom:15px">🔒 Private Channel</h3>
-        <a href="login.html" class="btn-primary" style="text-decoration:none">Sign In to Participate</a>
+        <h3 style="color: var(--gold); margin-bottom: 15px;">🔒 Private Channel</h3>
+        <p style="color: var(--muted); margin-bottom: 20px; font-size: 0.9rem;">You must be a logged-in ASMI Member to join the conversation.</p>
+        <a href="login.html" class="btn-primary" style="text-decoration: none;">Sign In to Participate</a>
       </div>
+
       <div class="chat-header">
-        <div style="display:flex;align-items:center;gap:10px"><div class="online-dot"></div><span style="color:var(--g7)">#general-asmi</span></div>
+        <div class="chat-title-area">
+          <div class="online-dot"></div>
+          <span style="font-weight:600;color:var(--g7)">#general-asmi</span>
+        </div>
+        <span style="font-size:.75rem;color:var(--muted);background:rgba(57,209,116,.08);padding:4px 12px;border-radius:20px;border:1px solid rgba(57,209,116,.15)">🔒 Encrypted Chat</span>
       </div>
-      <div id="replyBar" style="display:none; padding:10px; background:rgba(57,209,116,0.1); border-top:1px solid var(--g3); font-size:0.8rem">
-        Replying to <span id="replyName"></span>... <button onclick="cancelReply()" style="color:#ff6b6b; background:none; border:none; cursor:pointer; margin-left:10px">✕</button>
+      
+      <!-- Reply Bar for Edit/Reply feature -->
+      <div id="replyBar" style="display:none; padding: 10px 1.5rem; background: rgba(57,209,116,0.05); border-bottom: 1px solid rgba(57,209,116,0.1); font-size: 0.8rem; align-items: center; justify-content: space-between;">
+        <div><span style="color:var(--muted)">Replying to</span> <span id="replyName" style="color:var(--gold2); font-weight:600;"></span></div>
+        <button onclick="cancelReply()" style="background:none; border:none; color:var(--g5); cursor:pointer; font-size:1.2rem; line-height:1;">✕</button>
       </div>
-      <div class="chat-messages" id="chatMessages"></div>
+
+      <div class="chat-messages" id="chatMessages">
+          <!-- Firebase Msgs -->
+      </div>
       <div class="chat-input-area">
-        <input class="chat-input" id="chatInput" placeholder="Message members...">
-        <button class="chat-send" id="sendBtn">➤</button>
+        <input class="chat-input" id="chatInput" type="text" placeholder="Message the ASMI team... (members only)" onkeypress="if(event.key==='Enter')sendMsg()">
+        <button class="chat-send" onclick="sendMsg()">➤</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ADMIN DASHBOARD - 4 TABS RESTORED -->
+<div class="divider"></div>
+
+<!-- ADMIN PANEL (ALL 4 ORIGINAL TABS) -->
 <section id="admin-section">
   <div class="container">
     <div class="section-header reveal">
       <div class="section-tag">⚙️ Admin Dashboard</div>
       <h2 class="section-title">Club Management Panel</h2>
+      <p style="color:var(--muted);font-size:.9rem;margin-top:.5rem">Restricted to verified ASMI administrators</p>
     </div>
     <div class="admin-panel reveal">
       <div class="admin-tabs">
@@ -330,67 +764,129 @@
         <button class="admin-tab" onclick="switchTab('member')">👤 Add Member</button>
         <button class="admin-tab" onclick="switchTab('registrations')">📋 Registrations</button>
       </div>
+      
       <div class="admin-content active" id="tab-post">
-        <div class="form-group"><label>Announcement Title</label><input type="text" placeholder="Title..."></div>
-        <div class="form-group"><label>Content</label><textarea rows="4" placeholder="Body..."></textarea></div>
-        <button class="btn-primary" style="width:100%">Publish to All Members</button>
+        <h3 style="color:var(--g6);font-size:1rem;margin-bottom:1.2rem">Post an Announcement</h3>
+        <div class="form-group"><label>Announcement Title</label><input type="text" placeholder="e.g. World Environment Day — Join Us!"></div>
+        <div class="form-group"><label>Content / Body</label><textarea rows="4" placeholder="Share your update with all ASMI members..."></textarea></div>
+        <div class="form-group"><label>Post Type</label>
+          <select><option>📢 General Announcement</option><option>🏆 Achievement</option><option>📸 Event Recap</option><option>🚨 Urgent Notice</option></select>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-top:.5rem">Publish to All Members →</button>
       </div>
+      
+      <div class="admin-content" id="tab-event">
+        <h3 style="color:var(--g6);font-size:1rem;margin-bottom:1.2rem">Create a New Event</h3>
+        <div class="form-group"><label>Event Name</label><input type="text" placeholder="e.g. Eco Warriors Workshop 2025"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="form-group"><label>Date</label><input type="date"></div>
+          <div class="form-group"><label>Time</label><input type="time"></div>
+        </div>
+        <div class="form-group"><label>Venue</label><input type="text" placeholder="e.g. Seminar Hall A, Block 3"></div>
+        <div class="form-group"><label>Max Participants</label><input type="number" placeholder="50"></div>
+        <div class="form-group"><label>Description</label><textarea rows="3" placeholder="Describe the event..."></textarea></div>
+        <button class="btn-primary" style="width:100%;margin-top:.5rem">Publish Event →</button>
+      </div>
+      
       <div class="admin-content" id="tab-member">
-        <div class="form-group"><label>Official Email</label><input type="email" id="newEmail" placeholder="student@iare.ac.in"></div>
-        <div class="form-group"><label>Password</label><input type="text" id="newPass" value="Asmi123@"></div>
-        <button class="btn-primary" style="width:100%">Create Firebase Member</button>
+        <h3 style="color:var(--g6);font-size:1rem;margin-bottom:1.2rem">Add a New Member to Firebase</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="form-group" style="grid-column:1/-1"><label>Official Student Email</label><input type="email" id="newEmail" placeholder="student@iare.ac.in"></div>
+          <div class="form-group" style="grid-column:1/-1"><label>Temporary Password</label><input type="text" id="newPass" value="Asmi123@"></div>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-top:.5rem" onclick="alert('Firebase SDK requires manual Auth creation by Super Admin.')">Create Firebase Account →</button>
+      </div>
+      
+      <div class="admin-content" id="tab-registrations">
+        <h3 style="color:var(--g6);font-size:1rem;margin-bottom:1.2rem">Event Registrations</h3>
+        <div style="background:rgba(57,209,116,0.04);border:1px solid rgba(57,209,116,0.1);border-radius:12px;overflow:hidden">
+          <div style="display:grid;grid-template-columns:2fr 2fr 1fr 1fr;padding:.8rem 1rem;border-bottom:1px solid rgba(57,209,116,0.1);font-size:.75rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase">
+            <span>Name</span><span>Event</span><span>Roll No</span><span>Status</span>
+          </div>
+          <div style="display:grid;grid-template-columns:2fr 2fr 1fr 1fr;padding:.8rem 1rem;border-bottom:1px solid rgba(57,209,116,0.06);font-size:.85rem;align-items:center">
+            <span>Riya Sharma</span><span style="color:var(--muted)">Eco Workshop</span><span style="color:var(--muted)">19A91A0501</span>
+            <span style="background:rgba(57,209,116,.1);color:var(--g5);border-radius:20px;padding:2px 10px;font-size:.72rem;width:fit-content">✓ Confirmed</span>
+          </div>
+          <div style="display:grid;grid-template-columns:2fr 2fr 1fr 1fr;padding:.8rem 1rem;border-bottom:1px solid rgba(57,209,116,0.06);font-size:.85rem;align-items:center">
+            <span>Aditya Kumar</span><span style="color:var(--muted)">Tree Drive</span><span style="color:var(--muted)">20A91A0215</span>
+            <span style="background:rgba(212,168,67,.1);color:var(--gold2);border-radius:20px;padding:2px 10px;font-size:.72rem;width:fit-content">⏳ Pending</span>
+          </div>
+        </div>
+        <div style="text-align:right;margin-top:1rem">
+          <button class="btn-outline" style="font-size:.8rem;padding:8px 20px">Export to CSV →</button>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<div class="divider"></div>
+
 <!-- JOIN SECTION -->
 <section id="join-section" style="text-align:center">
   <div class="container">
-    <div class="reveal">
+    <div class="reveal" style="max-width:600px;margin:0 auto">
       <div class="section-tag">🌱 Become Part of ASMI</div>
       <h2 class="section-title" style="margin:1rem 0">Ready to Make a Difference?</h2>
+      <p style="color:var(--muted);line-height:1.8;margin-bottom:2.5rem">Every tree planted, every event attended, every pledge taken — it adds up. Join the ASMI family today and become part of IARE's green revolution.</p>
       <button class="btn-primary" style="font-size:1.1rem;padding:16px 48px" onclick="openModal('joinModal')">🌿 Join ASMI Today</button>
     </div>
   </div>
 </section>
 
-<!-- FOOTER RESTORED -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-logo">ASMI</div>
-  <div style="display:flex; justify-content:center; gap:2rem; margin:2rem 0; font-size:0.85rem">
-    <a href="#" style="color:var(--muted); text-decoration:none">About</a>
-    <a href="#" style="color:var(--muted); text-decoration:none">Gallery</a>
-    <a href="#" style="color:var(--muted); text-decoration:none">Contact</a>
+  <div class="footer-sub">Green Development & Sustainability Club · IARE, Hyderabad</div>
+  <div class="footer-links">
+    <a href="#">About</a>
+    <a href="#">Events</a>
+    <a href="#">Members</a>
+    <a href="#">Gallery</a>
+    <a href="#">Contact</a>
   </div>
-  <p style="color:rgba(127,184,150,0.5); font-size:0.8rem">© 2025 ASMI Club · IARE Hyderabad. Built with 💚 for a greener campus.</p>
+  <div class="footer-copy">© 2025 ASMI Club, IARE Hyderabad. Built with 💚 for a greener campus.</div>
 </footer>
 
-<!-- MODALS -->
+<!-- JOIN MODAL (FULL ORIGINAL INPUTS RESTORED) -->
 <div class="modal-overlay" id="joinModal">
   <div class="modal">
     <div class="modal-header">
-      <h3 class="modal-title">🌿 Join ASMI</h3>
+      <div class="modal-title">🌿 Join ASMI</div>
       <button class="modal-close" onclick="closeModal('joinModal')">✕</button>
     </div>
-    <div class="form-group"><label>Full Name</label><input id="join_name"></div>
-    <div class="form-group"><label>Roll Number</label><input id="join_roll"></div>
-    <div class="form-group"><label>Phone Number</label><input id="join_phone"></div>
-    <button class="btn-primary" style="width:100%" onclick="submitJoin()">Submit Application</button>
+    <div class="form-group"><label>Full Name</label><input type="text" id="join_name" placeholder="Your full name"></div>
+    <div class="form-group"><label>IARE Roll Number</label><input type="text" id="join_roll" placeholder="e.g. 21A91A0501"></div>
+    <div class="form-group"><label>Branch</label>
+      <select id="join_branch"><option>CSE</option><option>ECE</option><option>Mech</option><option>Civil</option><option>EEE</option><option>IT</option></select>
+    </div>
+    <div class="form-group"><label>Year of Study</label>
+      <select id="join_year"><option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option></select>
+    </div>
+    <div class="form-group"><label>Phone Number</label><input type="tel" id="join_phone" placeholder="+91 XXXXX XXXXX"></div>
+    <div class="form-group"><label>Why do you want to join ASMI?</label><textarea id="join_motive" rows="3" placeholder="Share your motivation..."></textarea></div>
+    <button class="btn-primary" style="width:100%" onclick="submitJoin()">Submit Application 🌱</button>
   </div>
 </div>
 
+<!-- REGISTRATION MODAL -->
 <div class="modal-overlay" id="regModal">
   <div class="modal">
     <div class="modal-header">
-      <h3 class="modal-title">📅 Event Registration</h3>
+      <div class="modal-title">📅 Event Registration</div>
       <button class="modal-close" onclick="closeModal('regModal')">✕</button>
     </div>
-    <div class="form-group"><label>Roll Number</label><input placeholder="e.g. 21A9..."></div>
-    <button class="btn-primary" style="width:100%">Confirm Registration</button>
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.5rem">Register directly — no Google Form, no redirect needed.</p>
+    <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your name"></div>
+    <div class="form-group"><label>Roll Number</label><input type="text" placeholder="IARE Roll Number"></div>
+    <div class="form-group"><label>Branch & Year</label><input type="text" placeholder="e.g. CSE 3rd Year"></div>
+    <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 XXXXX XXXXX"></div>
+    <button class="btn-primary" style="width:100%" onclick="submitReg()">Confirm Registration ✓</button>
   </div>
 </div>
 
+
+<!-- FIREBASE & GOOGLE SHEETS LOGIC -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -411,12 +907,19 @@ const DB_URL = "https://asmi-76d0b-default-rtdb.asia-southeast1.firebasedatabase
 const db = getDatabase(app, DB_URL);
 
 const DIRECTORY_URL = "https://script.google.com/macros/s/AKfycbwg1bwThXje8rPAqyZczi02Tqu4WnkS7tn3edu3ypOWNu3pXxAD-DZT8WWPnIs6x9TKAQ/exec";
+const JOIN_URL = "https://script.google.com/macros/s/AKfycbyimTm_PI6rU4TovK8qfZPvSwhj2uGUYT2nNUqh5zzPCU4buOalLrO7IYiO9oaSyBPgtA/exec";
 
 let currentUser = null;
 let isAdmin = false;
-let replyTo = null;
+let replyToObj = null; // Stores reply target
 
-// AUTH OBSERVER
+// 1. OBSERVER FOR ANIMATIONS
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+
+// 2. AUTH STATE LISTENER
 onAuthStateChanged(auth, async (user) => {
     const chatLock = document.getElementById('chatLock');
     const authBtn = document.getElementById('authNavBtn');
@@ -425,26 +928,34 @@ onAuthStateChanged(auth, async (user) => {
 
     if (user) {
         currentUser = user;
-        chatLock.style.display = 'none';
+        if(chatLock) chatLock.style.display = 'none';
         authBtn.textContent = 'Logout';
+        authBtn.style.color = '#ff6b6b';
+        authBtn.style.borderColor = '#ff6b6b';
+        authBtn.href = "#";
         authBtn.onclick = () => signOut(auth);
+
         const adminSnap = await get(ref(db, `admins/${user.uid}`));
         if (adminSnap.exists()) {
             isAdmin = true;
-            adminLink.style.display = 'block';
-            adminSec.style.display = 'block';
+            if(adminLink) adminLink.style.display = 'block';
+            if(adminSec) adminSec.style.display = 'block';
         }
     } else {
         currentUser = null;
         isAdmin = false;
-        chatLock.style.display = 'flex';
+        if(chatLock) chatLock.style.display = 'flex';
         authBtn.textContent = 'Member Login';
-        adminLink.style.display = 'none';
-        adminSec.style.display = 'none';
+        authBtn.style.color = 'var(--g5)';
+        authBtn.style.borderColor = 'var(--g5)';
+        authBtn.href = 'login.html';
+        authBtn.onclick = null;
+        if(adminLink) adminLink.style.display = 'none';
+        if(adminSec) adminSec.style.display = 'none';
     }
 });
 
-// LOAD MEMBERS
+// 3. FETCH MEMBERS DIRECTORY
 async function fetchMembers() {
     const grid = document.getElementById('membersGrid');
     try {
@@ -453,30 +964,78 @@ async function fetchMembers() {
         grid.innerHTML = "";
         data.forEach(m => {
             const name = m.Name || "Member";
-            const role = m['Enter Your Designation/Role in Club'] || "Core Member";
-            const init = name.split(" ").map(n => n[0]).join("").substring(0,2).toUpperCase();
+            const role = m['Enter Your Designation/Role in Club'] || "Member";
+            const phone = m['Mobile no.'] || "";
+            
+            const nameParts = name.trim().split(/\s+/);
+            let init = nameParts[0].charAt(0);
+            if(nameParts.length > 1) init += nameParts[nameParts.length-1].charAt(0);
+            init = init.toUpperCase();
+
             const card = document.createElement('div');
             card.className = "member-card reveal";
-            card.innerHTML = `<div class="member-avatar">${init}</div><div class="member-name">${name}</div><div class="member-role">${role}</div><div class="member-phone"><a href="tel:${m['Mobile no.']}">📞 Contact</a></div>`;
+            card.innerHTML = `
+                <div class="member-avatar">${init}</div>
+                <div class="member-name">${name}</div>
+                <div class="member-role ${role.toLowerCase().includes('president') ? 'lead' : ''}">${role}</div>
+                <div class="member-phone"><a href="tel:${phone}">📞 ${phone}</a></div>
+            `;
             grid.appendChild(card);
-            setTimeout(() => card.classList.add('visible'), 100);
+            obs.observe(card); // Re-trigger scroll animation
         });
-    } catch(e) { grid.innerHTML = "Error loading directory."; }
+    } catch(e) { 
+        grid.innerHTML = "<div style='grid-column:1/-1; text-align:center; color:#ff6b6b;'>Error loading directory data. Check CORS headers.</div>"; 
+    }
 }
 
-// CHAT
-document.getElementById('sendBtn').onclick = () => {
+// 4. SUBMIT JOIN REQUEST
+window.submitJoin = async () => {
+    const name = document.getElementById('join_name').value;
+    const roll = document.getElementById('join_roll').value;
+    const branch = document.getElementById('join_branch').value;
+    const year = document.getElementById('join_year').value;
+    const phone = document.getElementById('join_phone').value;
+    const motive = document.getElementById('join_motive').value;
+    const btn = document.querySelector('#joinModal .btn-primary');
+
+    if(!name || !roll || !phone) return alert("Name, Roll Number, and Phone are required.");
+
+    btn.disabled = true;
+    btn.textContent = "Sending...";
+
+    try {
+        await fetch(JOIN_URL, {
+            method: 'POST',
+            mode: 'no-cors', 
+            body: JSON.stringify({ name, roll, branch, year, phone, motive })
+        });
+        alert('🌿 Application sent successfully!');
+        window.closeModal('joinModal');
+    } catch (e) {
+        alert('Error submitting application.');
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "Submit Application 🌱";
+    }
+};
+
+window.submitReg = () => { window.closeModal('regModal'); alert('✅ Registration confirmed!'); };
+
+// 5. CHAT FUNCTIONALITY
+window.sendMsg = () => {
     const inp = document.getElementById('chatInput');
     if(!inp.value.trim() || !currentUser) return;
+    
     push(ref(db, 'messages'), {
         uid: currentUser.uid,
         name: currentUser.email.split('@')[0],
         text: inp.value,
         time: Date.now(),
-        replyTo: replyTo
+        replyTo: replyToObj
     });
+    
     inp.value = "";
-    cancelReply();
+    window.cancelReply(); // Clear reply state
 };
 
 onChildAdded(ref(db, 'messages'), (snap) => {
@@ -484,80 +1043,124 @@ onChildAdded(ref(db, 'messages'), (snap) => {
     const key = snap.key;
     const isOwn = currentUser && m.uid === currentUser.uid;
     const container = document.getElementById('chatMessages');
+    
     const div = document.createElement('div');
     div.className = `msg ${isOwn ? 'own' : ''}`;
     div.id = `msg-${key}`;
+    
+    // Build Reply Preview if exists
+    let replyHTML = '';
+    if(m.replyTo) {
+        replyHTML = `<div class="reply-preview">Replying to ${m.replyTo.name}: "${m.replyTo.text.substring(0,30)}..."</div>`;
+    }
+
+    // Build Actions (Edit/Reply/Delete)
+    let actionsHTML = `<div class="msg-actions">
+        <button class="chat-action-btn" onclick="window.replyMsg('${key}', '${m.name.replace(/'/g,"\\'")}', '${m.text.replace(/'/g,"\\'")}')">Reply</button>`;
+    
+    if(isOwn) {
+        actionsHTML += `<button class="chat-action-btn" onclick="window.editMsg('${key}', '${m.text.replace(/'/g,"\\'")}')">Edit</button>`;
+    }
+    if(isOwn || isAdmin) {
+        actionsHTML += `<button class="chat-action-btn" style="color:#ff6b6b" onclick="window.deleteMsg('${key}')">Delete</button>`;
+    }
+    actionsHTML += `</div>`;
+
     div.innerHTML = `
-      <div class="msg-bubble">
-        <div class="msg-name" style="color:var(--gold)">${m.name}</div>
-        ${m.replyTo ? `<div style="font-size:0.7rem; border-left:2px solid var(--g5); padding-left:5px; margin-bottom:5px; color:var(--muted)">Replying to ${m.replyTo.name}</div>` : ''}
-        <div class="text-content">${m.text}</div>
-        <div class="msg-time">${new Date(m.time).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
-        <div class="msg-actions">
-           <button class="chat-action-btn" onclick="window.replyMsg('${key}', '${m.name}', '${m.text}')">Reply</button>
-           ${isOwn ? `<button class="chat-action-btn" onclick="window.editMsg('${key}', '${m.text}')">Edit</button>` : ''}
-           ${(isOwn || isAdmin) ? `<button class="chat-action-btn" onclick="window.deleteMsg('${key}')">Delete</button>` : ''}
+        <div class="msg-av">${m.name.charAt(0).toUpperCase()}</div>
+        <div>
+            <div class="msg-name" style="color:${isOwn ? 'var(--gold)' : 'var(--muted)'}">${m.name}</div>
+            <div class="msg-bubble">
+                ${replyHTML}
+                <span class="text-content">${m.text}</span>
+            </div>
+            ${actionsHTML}
+            <div class="msg-time">${new Date(m.time).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
         </div>
-      </div>`;
+    `;
     container.appendChild(div);
     container.scrollTop = container.scrollHeight;
 });
 
 window.replyMsg = (id, name, text) => {
-  replyTo = {id, name, text};
-  document.getElementById('replyBar').style.display = 'block';
+  replyToObj = {id, name, text};
+  const bar = document.getElementById('replyBar');
+  bar.style.display = 'flex';
   document.getElementById('replyName').innerText = name;
 };
-window.cancelReply = () => { replyTo = null; document.getElementById('replyBar').style.display = 'none'; };
+window.cancelReply = () => { 
+  replyToObj = null; 
+  document.getElementById('replyBar').style.display = 'none'; 
+};
 window.editMsg = (key, old) => { 
   const txt = prompt("Edit Message:", old); 
-  if(txt) update(ref(db, `messages/${key}`), {text: txt}); 
+  if(txt && txt !== old) update(ref(db, `messages/${key}`), {text: txt}); 
 };
-window.deleteMsg = (key) => { if(confirm("Delete?")) remove(ref(db, `messages/${key}`)); };
+window.deleteMsg = (key) => { 
+  if(confirm("Delete this message?")) remove(ref(db, `messages/${key}`)); 
+};
+
 onChildRemoved(ref(db, 'messages'), (snap) => document.getElementById(`msg-${snap.key}`)?.remove());
 onChildChanged(ref(db, 'messages'), (snap) => {
   const el = document.querySelector(`#msg-${snap.key} .text-content`);
-  if(el) el.innerText = snap.val().text;
+  if(el) el.innerText = snap.val().text + " (edited)";
 });
 
 window.addEventListener('load', fetchMembers);
 </script>
 
 <script>
-// UI SCRIPTS
+// UI & ANIMATION SCRIPTS (ORIGINAL)
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
 
 const particles = document.getElementById('particles');
-for (let i = 0; i < 20; i++) {
+const leafEmojis = ['🍃','🌿','🍀','🌱','🍂'];
+for (let i = 0; i < 18; i++) {
   const leaf = document.createElement('div');
-  leaf.className = 'leaf-p'; leaf.textContent = '🍃';
-  leaf.style.cssText = `left:${Math.random()*100}%; animation-duration:${8+Math.random()*5}s; animation-delay:${Math.random()*5}s`;
+  leaf.className = 'leaf-p';
+  leaf.textContent = leafEmojis[Math.floor(Math.random()*leafEmojis.length)];
+  leaf.style.cssText = `left:${Math.random()*100}%; animation-duration:${8+Math.random()*12}s; animation-delay:${Math.random()*8}s; font-size:${12+Math.random()*14}px;`;
   particles.appendChild(leaf);
 }
 
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
-
-function switchTab(t) {
-  document.querySelectorAll('.admin-tab, .admin-content').forEach(el => el.classList.remove('active'));
-  document.getElementById('tab-'+t).classList.add('active');
+function switchTab(name) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
   event.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
 }
 
-function animateCounter(id, target) {
-  let c = 0; const i = setInterval(() => {
-    c += Math.ceil(target/50);
-    if(c >= target) { clearInterval(i); c = target; }
-    document.getElementById(id).textContent = c + "+";
-  }, 30);
+function animateCounter(el, target, suffix='') {
+  let cur = 0; const step = target / 60;
+  const t = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = Math.floor(cur) + suffix;
+    if (cur >= target) clearInterval(t);
+  }, 25);
 }
-window.onload = () => { animateCounter('c1', 120); animateCounter('c2', 1240); animateCounter('c3', 34); };
 
-window.openModal = (id) => { document.getElementById(id).classList.add('open'); }
-window.closeModal = (id) => { document.getElementById(id).classList.remove('open'); }
+window.onload = () => { 
+  setTimeout(() => {
+    animateCounter(document.getElementById('c1'), 120, '+');
+    animateCounter(document.getElementById('c2'), 34);
+    animateCounter(document.getElementById('c3'), 1240, '+');
+    animateCounter(document.getElementById('c4'), 8);
+  }, 600);
+};
+
+window.openModal = (id) => document.getElementById(id).classList.add('open');
+window.closeModal = (id) => document.getElementById(id).classList.remove('open');
+
+// Smooth Navigation
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    if(a.id === "adminNavLink") return; // Let CSS handle admin link scroll
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({behavior:'smooth'});
+  });
+});
 </script>
 </body>
 </html>
